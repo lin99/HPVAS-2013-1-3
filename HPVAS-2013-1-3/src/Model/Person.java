@@ -14,7 +14,7 @@ import javax.persistence.Temporal;
  * @author Fredy Virguez
  */
 @MappedSuperclass
-public class Person {
+public class Person{
 
     private String name;
     private String lastName;

@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
  * @author Fredy Virguez
  */
 @Entity
-public class Owner extends Person{
+public class Owner extends Person {
     
     @OneToMany(mappedBy="owner")
     private List<Pet> pets;

@@ -4,6 +4,10 @@
  */
 package boundary;
 
+import java.util.LinkedList;
+import java.util.Queue;
+import javax.swing.JPanel;
+
 /**
  *
  * @author lin
@@ -203,6 +207,13 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
     }
+    
+    private Queue<JPanel> previousPanels = new LinkedList<JPanel>();
+    
+    public void loadPreviousPanel() {
+        
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelMain;
     private javax.swing.JButton buttonAddQuery;
