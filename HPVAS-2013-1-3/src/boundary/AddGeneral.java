@@ -4,6 +4,8 @@
  */
 package boundary;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author lin
@@ -29,18 +31,18 @@ public class AddGeneral extends javax.swing.JPanel {
         tabbedPaneGen = new javax.swing.JTabbedPane();
         panelOwnGen = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableOwnerAG = new javax.swing.JTable();
         panelPetGen = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tablePetAG = new javax.swing.JTable();
         panelVetGen = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tableVetAG = new javax.swing.JTable();
         buttonAddGen = new javax.swing.JButton();
         buttonDelGen = new javax.swing.JButton();
         buttonBackGen = new javax.swing.JButton();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableOwnerAG.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -48,7 +50,7 @@ public class AddGeneral extends javax.swing.JPanel {
                 "Name", "Last Name", "SSN", "BirthDate", "Birth Place"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableOwnerAG);
 
         javax.swing.GroupLayout panelOwnGenLayout = new javax.swing.GroupLayout(panelOwnGen);
         panelOwnGen.setLayout(panelOwnGenLayout);
@@ -69,7 +71,7 @@ public class AddGeneral extends javax.swing.JPanel {
 
         tabbedPaneGen.addTab("Owner", panelOwnGen);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tablePetAG.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -77,8 +79,8 @@ public class AddGeneral extends javax.swing.JPanel {
                 "Name", "Specie", "Age", "Weight"
             }
         ));
-        jTable2.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(jTable2);
+        tablePetAG.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tablePetAG);
 
         javax.swing.GroupLayout panelPetGenLayout = new javax.swing.GroupLayout(panelPetGen);
         panelPetGen.setLayout(panelPetGenLayout);
@@ -99,7 +101,7 @@ public class AddGeneral extends javax.swing.JPanel {
 
         tabbedPaneGen.addTab("Pet", panelPetGen);
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tableVetAG.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -107,8 +109,8 @@ public class AddGeneral extends javax.swing.JPanel {
                 "Name", "Last Name", "Salary", "Graduation"
             }
         ));
-        jTable3.getTableHeader().setReorderingAllowed(false);
-        jScrollPane3.setViewportView(jTable3);
+        tableVetAG.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(tableVetAG);
 
         javax.swing.GroupLayout panelVetGenLayout = new javax.swing.GroupLayout(panelVetGen);
         panelVetGen.setLayout(panelVetGenLayout);
@@ -139,6 +141,11 @@ public class AddGeneral extends javax.swing.JPanel {
 
         buttonDelGen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boundary/delete.png"))); // NOI18N
         buttonDelGen.setText("Delete");
+        buttonDelGen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDelGenActionPerformed(evt);
+            }
+        });
 
         buttonBackGen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boundary/back.png"))); // NOI18N
         buttonBackGen.setText("Back");
@@ -179,8 +186,32 @@ public class AddGeneral extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonAddGenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddGenActionPerformed
-        // TODO add your handling code here:
+        int index = tabbedPaneGen.getSelectedIndex();
+        
+        switch(index){
+            case 0: addOwner(); 
+                break;
+            case 1: addPet();
+                break;
+            case 2: addVet();
+                break;
+        
+        }
     }//GEN-LAST:event_buttonAddGenActionPerformed
+
+    private void buttonDelGenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDelGenActionPerformed
+        int index = tabbedPaneGen.getSelectedIndex();
+        
+        switch(index){
+            case 0: delOwner(); 
+                break;
+            case 1: delPet();
+                break;
+            case 2: delVet();
+                break;
+        
+        }
+    }//GEN-LAST:event_buttonDelGenActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAddGen;
@@ -189,12 +220,63 @@ public class AddGeneral extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JPanel panelOwnGen;
     private javax.swing.JPanel panelPetGen;
     private javax.swing.JPanel panelVetGen;
     private javax.swing.JTabbedPane tabbedPaneGen;
+    private javax.swing.JTable tableOwnerAG;
+    private javax.swing.JTable tablePetAG;
+    private javax.swing.JTable tableVetAG;
     // End of variables declaration//GEN-END:variables
+
+    private void addOwner() {
+        ((DefaultTableModel)tableOwnerAG.getModel()).addRow(new Object []{});
+    }
+
+    private void addPet() {
+        ((DefaultTableModel)tablePetAG.getModel()).addRow(new Object []{});
+    }
+
+    private void addVet() {
+        ((DefaultTableModel)tableVetAG.getModel()).addRow(new Object []{});
+    }
+
+    private void delOwner() {
+        int index = tableOwnerAG.getSelectedRow();
+        
+        if(index >= 0){
+            ((DefaultTableModel)tableOwnerAG.getModel()).removeRow(index);
+            
+            if(tableOwnerAG.getRowCount() > 0){
+                index = Math.min(index,tableOwnerAG.getRowCount() - 1);
+                tableOwnerAG.getSelectionModel().setSelectionInterval(index, index);
+            }
+        }
+    }
+
+    private void delPet() {
+        int index = tablePetAG.getSelectedRow();
+        
+        if(index >= 0){
+            ((DefaultTableModel)tablePetAG.getModel()).removeRow(index);
+            
+            if(tablePetAG.getRowCount() > 0){
+                index = Math.min(index,tablePetAG.getRowCount() - 1);
+                tablePetAG.getSelectionModel().setSelectionInterval(index, index);
+            }
+        }
+    }
+
+    private void delVet() {
+        int index = tableVetAG.getSelectedRow();
+        
+        if(index >= 0){
+            ((DefaultTableModel)tableVetAG.getModel()).removeRow(index);
+            
+            if(tableVetAG.getRowCount() > 0){
+                index = Math.min(index,tableVetAG.getRowCount() - 1);
+                tableVetAG.getSelectionModel().setSelectionInterval(index, index);
+            }
+        }
+    }
 }

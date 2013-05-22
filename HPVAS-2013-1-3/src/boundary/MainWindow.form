@@ -149,6 +149,7 @@
             <Component class="javax.swing.JCheckBox" name="checkBoxOwner">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Owner"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkBoxOwnerActionPerformed"/>
@@ -157,11 +158,13 @@
             <Component class="javax.swing.JCheckBox" name="checkBoxVet">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Vet"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="checkBoxPet">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Pet"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="buttonSearch">

@@ -48,6 +48,7 @@ public class MainWindow extends javax.swing.JFrame {
         textFieldQuery.setText("Search here... ");
 
         checkBoxOwner.setText("Owner");
+        checkBoxOwner.setEnabled(false);
         checkBoxOwner.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkBoxOwnerActionPerformed(evt);
@@ -55,8 +56,10 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         checkBoxVet.setText("Vet");
+        checkBoxVet.setEnabled(false);
 
         checkBoxPet.setText("Pet");
+        checkBoxPet.setEnabled(false);
 
         buttonSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boundary/search.png"))); // NOI18N
         buttonSearch.setText("Search");
