@@ -4,7 +4,6 @@
  */
 package Model;
 
-import com.sun.istack.internal.Nullable;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;

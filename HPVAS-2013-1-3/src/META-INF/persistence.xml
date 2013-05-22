@@ -3,6 +3,7 @@
   <persistence-unit name="HPVAS" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>Model.Appointment</class>
+    <class>Model.Login</class>
     <class>Model.MedicalRecord</class>
     <class>Model.Owner</class>
     <class>Model.Pet</class>
@@ -13,7 +14,6 @@
       <property name="javax.persistence.jdbc.password" value=""/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
-      <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
     </properties>
   </persistence-unit>
 </persistence>
