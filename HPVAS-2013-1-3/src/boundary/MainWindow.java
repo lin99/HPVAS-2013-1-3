@@ -64,6 +64,7 @@ public class MainWindow extends javax.swing.JFrame {
         buttonAddQuery.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boundary/addSearch.png"))); // NOI18N
         buttonAddQuery.setText("Add");
 
+        buttonSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boundary/save.png"))); // NOI18N
         buttonSave.setText("Save Now");
 
         javax.swing.GroupLayout panelSearchLayout = new javax.swing.GroupLayout(panelSearch);
@@ -86,9 +87,9 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(buttonSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(buttonAddQuery, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(buttonSave)
-                .addContainerGap())
+                .addGap(20, 20, 20))
         );
         panelSearchLayout.setVerticalGroup(
             panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,7 +105,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(buttonSearch))
                 .addGap(0, 14, Short.MAX_VALUE))
             .addGroup(panelSearchLayout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addGap(26, 26, 26)
                 .addComponent(buttonSave)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );

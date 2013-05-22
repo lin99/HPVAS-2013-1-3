@@ -140,6 +140,7 @@ public class AddGeneral extends javax.swing.JPanel {
         buttonDelGen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boundary/delete.png"))); // NOI18N
         buttonDelGen.setText("Delete");
 
+        buttonBackGen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boundary/back.png"))); // NOI18N
         buttonBackGen.setText("Back");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

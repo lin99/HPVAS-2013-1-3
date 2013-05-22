@@ -37,6 +37,8 @@ public class ResultPet extends javax.swing.JPanel {
         textFieldWeightPet = new javax.swing.JTextField();
         labelWeightPet = new javax.swing.JLabel();
         panelPhotoPet = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
         panelMedRecPet = new javax.swing.JPanel();
         scrollPaneVaccine = new javax.swing.JScrollPane();
         tableVaccine = new javax.swing.JTable();
@@ -65,6 +67,8 @@ public class ResultPet extends javax.swing.JPanel {
             .addGap(0, 184, Short.MAX_VALUE)
         );
 
+        jLabel1.setText("Owner:");
+
         javax.swing.GroupLayout panelInfoPetLayout = new javax.swing.GroupLayout(panelInfoPet);
         panelInfoPet.setLayout(panelInfoPetLayout);
         panelInfoPetLayout.setHorizontalGroup(
@@ -72,10 +76,6 @@ public class ResultPet extends javax.swing.JPanel {
             .addGroup(panelInfoPetLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelInfoPetLayout.createSequentialGroup()
-                        .addComponent(labelWeightPet)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(textFieldWeightPet, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelInfoPetLayout.createSequentialGroup()
                         .addComponent(labelAgePet)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -90,7 +90,15 @@ public class ResultPet extends javax.swing.JPanel {
                                 .addComponent(labelSpeciePet)
                                 .addGap(25, 25, 25)
                                 .addComponent(textFieldSpeciePet)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInfoPetLayout.createSequentialGroup()
+                        .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelWeightPet)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(textFieldWeightPet, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                            .addComponent(jTextField1))))
                 .addGap(18, 18, 18)
                 .addComponent(panelPhotoPet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
@@ -117,7 +125,11 @@ public class ResultPet extends javax.swing.JPanel {
                         .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelWeightPet)
                             .addComponent(textFieldWeightPet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tabbedPanePet.addTab("Information", panelInfoPet);
@@ -182,6 +194,7 @@ public class ResultPet extends javax.swing.JPanel {
 
         tabbedPanePet.addTab("Medical Record", panelMedRecPet);
 
+        buttonBackPet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boundary/back.png"))); // NOI18N
         buttonBackPet.setText("Back");
         buttonBackPet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,8 +218,8 @@ public class ResultPet extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(buttonBackPet)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tabbedPanePet, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(tabbedPanePet, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -218,6 +231,8 @@ public class ResultPet extends javax.swing.JPanel {
     private javax.swing.JButton buttonAddPet;
     private javax.swing.JButton buttonBackPet;
     private javax.swing.JButton buttonDelPet;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel labelAgePet;
     private javax.swing.JLabel labelNamePet;
     private javax.swing.JLabel labelSpeciePet;

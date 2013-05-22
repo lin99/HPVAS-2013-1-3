@@ -240,6 +240,7 @@ public class ResultVet extends javax.swing.JPanel {
 
         tabbedPaneVet.addTab("Pets", panelPetsVet);
 
+        buttonBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boundary/back.png"))); // NOI18N
         buttonBack.setText("Back");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
