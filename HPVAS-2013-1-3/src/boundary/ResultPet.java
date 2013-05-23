@@ -4,19 +4,130 @@
  */
 package boundary;
 
+import Model.Pet;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.util.Queue;
+import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+
 /**
- *
- * @author lin
+ * @author Lina Fernanda Rosales Castro <href="mailto:lfrosalesc@unal.edu.co">lfrosalesc@unal.edu.co</href> 
+ * @author Andrés Sarmiento Tobón <href="mailto:ansarmientoto@unal.edu.co">ansarmientoto@unal.edu.co</href>
  */
-public class ResultPet extends javax.swing.JPanel {
+public class ResultPet extends javax.swing.JPanel implements
+        EmbeddedHPVAPanel {
+    private MainWindow mainWindow;
+    private Pet pet;
+    private static Image currentImage;
+    private String[] namesDrugs;
+    private String[] dosages;
+    private String[] dates;
+    private String[] charges;
+    private String[] notes;
+    private String[] vets;
+    private Queue<String> appoinmentsDel;
 
     /**
      * Creates new form ResultPet
      */
-    public ResultPet() {
+    public ResultPet(MainWindow mainWindow) {
         initComponents();
+        this.mainWindow = mainWindow;
     }
 
+    @Override
+    public void save() throws IllegalArgumentException {
+        String name = textFieldNamePet.getText();
+        String specie = textFieldSpeciePet.getText();
+        String age = textFieldAgePet.getText();
+        String weight = textFieldWeightPet.getText();
+        String owner = textFieldOwner.getText();
+        
+        //Call controller and passes all the arguments
+        
+        while(!appoinmentsDel.isEmpty()) {
+            String vetDel = appoinmentsDel.poll();
+            //Call the controller to delete an appoinment(name, vetDel)
+        }
+        
+        for (int i = 0; i < tableAppo.getRowCount(); i++) {
+            String date = (String) tableAppo.getValueAt(i, 0);
+            String charge = (String) tableAppo.getValueAt(i, 1);
+            String note = (String) tableAppo.getValueAt(i, 2);
+            String vetSSN = (String) tableAppo.getValueAt(i, 3);
+
+            //Call the controller to add/update an appoinment
+        }
+    }
+    
+    @Override
+    public void update() {
+        ResultPet.setCurrentImage(pet.getPicture());
+        panelPhotoPet.repaint();
+        
+        textFieldAgePet.setText("" + pet.getAge());
+        textFieldNamePet.setText(pet.getName());
+        textFieldOwner.setText(pet.getOwner().getSsn());
+        textFieldSpeciePet.setText(pet.getSpecies());
+        textFieldWeightPet.setText("" + pet.getWeight());
+        
+        DefaultTableModel tableVaccineModel = (DefaultTableModel) 
+                tableVaccine.getModel();
+        
+        while (tableVaccineModel.getRowCount() > 0) {            
+            tableVaccineModel.removeRow(0);
+        }
+        
+        for (int i = 0; i < namesDrugs.length && i < dosages.length; i++) {
+            tableVaccineModel.addRow(new Object[]{
+                namesDrugs[i],
+                dosages[i]
+            });
+        }
+        
+        DefaultTableModel tableAppoModel = (DefaultTableModel) 
+                tableAppo.getModel();
+        
+        while (tableAppoModel.getRowCount() > 0) {            
+            tableAppoModel.removeRow(0);
+        }
+        
+        for (int i = 0; i < dates.length && i < charges.length && i < notes.length && i < vets.length; i++) {
+            tableAppoModel.addRow(new Object[]{
+                dates[i],
+                charges[i],
+                notes[i],
+                vets[i]
+            });
+        }
+    }
+    
+    public void setPet(Pet pet) {
+        this.pet = pet;
+    }
+    
+    public void setNameDosage(String[] namesDrugs, String[] dosages) {
+        this.namesDrugs = namesDrugs;
+        this.dosages = dosages;
+    }
+    
+    public void setDateChargeNotesVet(String[] dates, String[] charges, String[] notes, String[] vets) {
+        this.dates = dates;
+        this.charges = charges;
+        this.notes = notes;
+        this.vets = vets;
+    }
+    
+    public static Image getCurrentImage() {
+        return currentImage;
+    }
+
+    public static void setCurrentImage(byte[] bytes) {
+        currentImage = null;//Call the controller to convert from byte[] to Image
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,9 +147,14 @@ public class ResultPet extends javax.swing.JPanel {
         textFieldAgePet = new javax.swing.JTextField();
         textFieldWeightPet = new javax.swing.JTextField();
         labelWeightPet = new javax.swing.JLabel();
-        panelPhotoPet = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        panelPhotoPet = new JPanel(){
+            public void paint(Graphics g) {
+                super.paint(g);
+                g.drawImage(ResultPet.getCurrentImage(), 0, 0, getWidth(), getHeight(), Color.WHITE, this);
+            }
+        };
+        labelOwner = new javax.swing.JLabel();
+        textFieldOwner = new javax.swing.JTextField();
         panelMedRecPet = new javax.swing.JPanel();
         scrollPaneVaccine = new javax.swing.JScrollPane();
         tableVaccine = new javax.swing.JTable();
@@ -48,13 +164,61 @@ public class ResultPet extends javax.swing.JPanel {
         buttonDelPet = new javax.swing.JButton();
         buttonBackPet = new javax.swing.JButton();
 
+        setMaximumSize(new java.awt.Dimension(598, 335));
+        setMinimumSize(new java.awt.Dimension(598, 335));
+        setOpaque(false);
+        setPreferredSize(new java.awt.Dimension(598, 335));
+
+        panelInfoPet.setBackground(new java.awt.Color(253, 253, 253));
+        panelInfoPet.setForeground(new java.awt.Color(0, 0, 0));
+
+        labelAgePet.setForeground(new java.awt.Color(0, 0, 0));
         labelAgePet.setText("Age:");
+        labelAgePet.setMaximumSize(new java.awt.Dimension(56, 19));
+        labelAgePet.setMinimumSize(new java.awt.Dimension(56, 19));
+        labelAgePet.setPreferredSize(new java.awt.Dimension(56, 19));
 
+        labelNamePet.setForeground(new java.awt.Color(0, 0, 0));
         labelNamePet.setText("Name:");
+        labelNamePet.setMaximumSize(new java.awt.Dimension(56, 19));
+        labelNamePet.setMinimumSize(new java.awt.Dimension(56, 19));
+        labelNamePet.setPreferredSize(new java.awt.Dimension(56, 19));
 
+        textFieldNamePet.setEditable(false);
+        textFieldNamePet.setBackground(new java.awt.Color(255, 255, 255));
+        textFieldNamePet.setForeground(new java.awt.Color(153, 153, 153));
+        textFieldNamePet.setMaximumSize(new java.awt.Dimension(204, 19));
+        textFieldNamePet.setMinimumSize(new java.awt.Dimension(204, 19));
+        textFieldNamePet.setPreferredSize(new java.awt.Dimension(204, 19));
+
+        textFieldSpeciePet.setForeground(new java.awt.Color(0, 0, 0));
+        textFieldSpeciePet.setMaximumSize(new java.awt.Dimension(204, 19));
+        textFieldSpeciePet.setMinimumSize(new java.awt.Dimension(204, 19));
+        textFieldSpeciePet.setPreferredSize(new java.awt.Dimension(204, 19));
+
+        labelSpeciePet.setForeground(new java.awt.Color(0, 0, 0));
         labelSpeciePet.setText("Specie:");
+        labelSpeciePet.setMaximumSize(new java.awt.Dimension(56, 19));
+        labelSpeciePet.setMinimumSize(new java.awt.Dimension(56, 19));
+        labelSpeciePet.setPreferredSize(new java.awt.Dimension(56, 19));
 
+        textFieldAgePet.setForeground(new java.awt.Color(0, 0, 0));
+        textFieldAgePet.setMaximumSize(new java.awt.Dimension(204, 19));
+        textFieldAgePet.setMinimumSize(new java.awt.Dimension(204, 19));
+        textFieldAgePet.setPreferredSize(new java.awt.Dimension(204, 19));
+
+        textFieldWeightPet.setForeground(new java.awt.Color(0, 0, 0));
+        textFieldWeightPet.setMaximumSize(new java.awt.Dimension(204, 19));
+        textFieldWeightPet.setMinimumSize(new java.awt.Dimension(204, 19));
+        textFieldWeightPet.setPreferredSize(new java.awt.Dimension(204, 19));
+
+        labelWeightPet.setForeground(new java.awt.Color(0, 0, 0));
         labelWeightPet.setText("Weight:");
+        labelWeightPet.setMaximumSize(new java.awt.Dimension(56, 19));
+        labelWeightPet.setMinimumSize(new java.awt.Dimension(56, 19));
+        labelWeightPet.setPreferredSize(new java.awt.Dimension(56, 19));
+
+        panelPhotoPet.setOpaque(false);
 
         javax.swing.GroupLayout panelPhotoPetLayout = new javax.swing.GroupLayout(panelPhotoPet);
         panelPhotoPet.setLayout(panelPhotoPetLayout);
@@ -67,72 +231,80 @@ public class ResultPet extends javax.swing.JPanel {
             .addGap(0, 184, Short.MAX_VALUE)
         );
 
-        jLabel1.setText("Owner:");
+        labelOwner.setForeground(new java.awt.Color(0, 0, 0));
+        labelOwner.setText("Owner:");
+        labelOwner.setMaximumSize(new java.awt.Dimension(56, 19));
+        labelOwner.setMinimumSize(new java.awt.Dimension(56, 19));
+        labelOwner.setPreferredSize(new java.awt.Dimension(56, 19));
+
+        textFieldOwner.setForeground(new java.awt.Color(0, 0, 0));
+        textFieldOwner.setMaximumSize(new java.awt.Dimension(204, 19));
+        textFieldOwner.setMinimumSize(new java.awt.Dimension(204, 19));
+        textFieldOwner.setPreferredSize(new java.awt.Dimension(204, 19));
 
         javax.swing.GroupLayout panelInfoPetLayout = new javax.swing.GroupLayout(panelInfoPet);
         panelInfoPet.setLayout(panelInfoPetLayout);
         panelInfoPetLayout.setHorizontalGroup(
             panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInfoPetLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addGap(39, 39, 39)
                 .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelInfoPetLayout.createSequentialGroup()
-                        .addComponent(labelAgePet)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(textFieldAgePet, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(labelSpeciePet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelNamePet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(textFieldNamePet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldSpeciePet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelInfoPetLayout.createSequentialGroup()
-                        .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(panelInfoPetLayout.createSequentialGroup()
-                                .addComponent(labelNamePet)
-                                .addGap(30, 30, 30)
-                                .addComponent(textFieldNamePet, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelInfoPetLayout.createSequentialGroup()
-                                .addComponent(labelSpeciePet)
-                                .addGap(25, 25, 25)
-                                .addComponent(textFieldSpeciePet)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInfoPetLayout.createSequentialGroup()
                         .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelWeightPet)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(textFieldWeightPet, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
-                            .addComponent(jTextField1))))
-                .addGap(18, 18, 18)
+                            .addComponent(labelOwner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelWeightPet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelAgePet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textFieldOwner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldAgePet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldWeightPet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(78, 78, 78)
                 .addComponent(panelPhotoPet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addGap(34, 34, 34))
         );
         panelInfoPetLayout.setVerticalGroup(
             panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInfoPetLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
                 .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelPhotoPet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelInfoPetLayout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(panelPhotoPet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelInfoPetLayout.createSequentialGroup()
+                        .addGap(46, 46, 46)
                         .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelNamePet)
+                            .addComponent(labelNamePet, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(textFieldNamePet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(24, 24, 24)
-                        .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelSpeciePet)
+                        .addGap(18, 18, 18)
+                        .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelSpeciePet, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(textFieldSpeciePet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(24, 24, 24)
-                        .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelAgePet)
+                        .addGap(18, 18, 18)
+                        .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelAgePet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(textFieldAgePet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(24, 24, 24)
-                        .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelWeightPet)
-                            .addComponent(textFieldWeightPet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelWeightPet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldWeightPet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelInfoPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelOwner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldOwner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(38, 38, 38))
         );
 
         tabbedPanePet.addTab("Information", panelInfoPet);
+
+        panelMedRecPet.setBackground(new java.awt.Color(253, 253, 253));
 
         tableVaccine.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -141,7 +313,22 @@ public class ResultPet extends javax.swing.JPanel {
             new String [] {
                 "Name", "Dosage"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableVaccine.getTableHeader().setReorderingAllowed(false);
         scrollPaneVaccine.setViewportView(tableVaccine);
 
@@ -152,12 +339,29 @@ public class ResultPet extends javax.swing.JPanel {
             new String [] {
                 "Date", "Charge", "Notes", " Vet"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         scrollPaneAppo.setViewportView(tableAppo);
 
+        buttonAddPet.setBackground(new java.awt.Color(255, 255, 255));
         buttonAddPet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boundary/add.png"))); // NOI18N
         buttonAddPet.setText("Add");
 
+        buttonDelPet.setBackground(new java.awt.Color(255, 255, 255));
         buttonDelPet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boundary/delete.png"))); // NOI18N
         buttonDelPet.setText("Delete");
 
@@ -168,32 +372,33 @@ public class ResultPet extends javax.swing.JPanel {
             .addGroup(panelMedRecPetLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelMedRecPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollPaneVaccine, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                    .addComponent(scrollPaneVaccine)
                     .addComponent(scrollPaneAppo, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
-            .addGroup(panelMedRecPetLayout.createSequentialGroup()
-                .addGap(103, 103, 103)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMedRecPetLayout.createSequentialGroup()
+                .addGap(128, 128, 128)
                 .addComponent(buttonAddPet, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(72, 72, 72)
-                .addComponent(buttonDelPet, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(90, 90, 90)
+                .addComponent(buttonDelPet)
+                .addGap(129, 129, 129))
         );
         panelMedRecPetLayout.setVerticalGroup(
             panelMedRecPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMedRecPetLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(22, 22, 22)
                 .addComponent(scrollPaneVaccine, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(scrollPaneAppo, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(21, 21, 21)
                 .addGroup(panelMedRecPetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonAddPet)
                     .addComponent(buttonDelPet))
-                .addGap(242, 242, 242))
+                .addContainerGap())
         );
 
         tabbedPanePet.addTab("Medical Record", panelMedRecPet);
 
+        buttonBackPet.setBackground(new java.awt.Color(255, 255, 255));
         buttonBackPet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boundary/back.png"))); // NOI18N
         buttonBackPet.setText("Back");
         buttonBackPet.addActionListener(new java.awt.event.ActionListener() {
@@ -206,11 +411,14 @@ public class ResultPet extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabbedPanePet, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(buttonBackPet)
-                .addGap(29, 29, 29))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tabbedPanePet)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(487, 487, 487)
+                        .addComponent(buttonBackPet)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,23 +426,22 @@ public class ResultPet extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(buttonBackPet)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tabbedPanePet, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
+                .addComponent(tabbedPanePet)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonBackPetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBackPetActionPerformed
-        // TODO add your handling code here:
+        mainWindow.loadPreviousPanel();
     }//GEN-LAST:event_buttonBackPetActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAddPet;
     private javax.swing.JButton buttonBackPet;
     private javax.swing.JButton buttonDelPet;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel labelAgePet;
     private javax.swing.JLabel labelNamePet;
+    private javax.swing.JLabel labelOwner;
     private javax.swing.JLabel labelSpeciePet;
     private javax.swing.JLabel labelWeightPet;
     private javax.swing.JPanel panelInfoPet;
@@ -247,6 +454,7 @@ public class ResultPet extends javax.swing.JPanel {
     private javax.swing.JTable tableVaccine;
     private javax.swing.JTextField textFieldAgePet;
     private javax.swing.JTextField textFieldNamePet;
+    private javax.swing.JTextField textFieldOwner;
     private javax.swing.JTextField textFieldSpeciePet;
     private javax.swing.JTextField textFieldWeightPet;
     // End of variables declaration//GEN-END:variables

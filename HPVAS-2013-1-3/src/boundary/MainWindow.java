@@ -10,7 +10,8 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author lin
+ * @author Lina Fernanda Rosales Castro <href="mailto:lfrosalesc@unal.edu.co">lfrosalesc@unal.edu.co</href> 
+ * @author Andrés Sarmiento Tobón <href="mailto:ansarmientoto@unal.edu.co">ansarmientoto@unal.edu.co</href>
  */
 public class MainWindow extends javax.swing.JFrame {
 
@@ -44,13 +45,15 @@ public class MainWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(253, 253, 253));
 
-        PanelMain.setBackground(java.awt.Color.lightGray);
+        PanelMain.setBackground(new java.awt.Color(253, 253, 253));
 
         panelSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Search", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ubuntu Light", 0, 18))); // NOI18N
+        panelSearch.setOpaque(false);
 
         textFieldQuery.setForeground(java.awt.Color.lightGray);
         textFieldQuery.setText("Search here... ");
 
+        checkBoxOwner.setBackground(new java.awt.Color(253, 253, 253));
         checkBoxOwner.setText("Owner");
         checkBoxOwner.setEnabled(false);
         checkBoxOwner.addActionListener(new java.awt.event.ActionListener() {
@@ -59,18 +62,23 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        checkBoxVet.setBackground(new java.awt.Color(253, 253, 253));
         checkBoxVet.setText("Vet");
         checkBoxVet.setEnabled(false);
 
+        checkBoxPet.setBackground(new java.awt.Color(253, 253, 253));
         checkBoxPet.setText("Pet");
         checkBoxPet.setEnabled(false);
 
+        buttonSearch.setBackground(new java.awt.Color(255, 255, 255));
         buttonSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boundary/search.png"))); // NOI18N
         buttonSearch.setText("Search");
 
+        buttonAddQuery.setBackground(new java.awt.Color(255, 255, 255));
         buttonAddQuery.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boundary/addSearch.png"))); // NOI18N
         buttonAddQuery.setText("Add");
 
+        buttonSave.setBackground(new java.awt.Color(255, 255, 255));
         buttonSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boundary/save.png"))); // NOI18N
         buttonSave.setText("Save Now");
 
@@ -94,7 +102,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(buttonSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(buttonAddQuery, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(buttonSave)
                 .addGap(20, 20, 20))
         );
@@ -117,23 +125,31 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        panelResults.setMaximumSize(new java.awt.Dimension(598, 335));
+        panelResults.setMinimumSize(new java.awt.Dimension(598, 335));
+        panelResults.setOpaque(false);
+
         javax.swing.GroupLayout panelResultsLayout = new javax.swing.GroupLayout(panelResults);
         panelResults.setLayout(panelResultsLayout);
         panelResultsLayout.setHorizontalGroup(
             panelResultsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 598, Short.MAX_VALUE)
         );
         panelResultsLayout.setVerticalGroup(
             panelResultsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 313, Short.MAX_VALUE)
+            .addGap(0, 335, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout PanelMainLayout = new javax.swing.GroupLayout(PanelMain);
         PanelMain.setLayout(PanelMainLayout);
         PanelMainLayout.setHorizontalGroup(
             PanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(panelResults, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelMainLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelResults, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         PanelMainLayout.setVerticalGroup(
             PanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,8 +157,8 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(panelSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(panelResults, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(panelResults, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         checkBoxOwner.setVisible(false);
@@ -153,17 +169,11 @@ public class MainWindow extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(PanelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(PanelMain, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(PanelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(PanelMain, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -212,6 +222,10 @@ public class MainWindow extends javax.swing.JFrame {
     
     public void loadPreviousPanel() {
         
+    }
+    
+    private void search(String search) {
+        Object[] petsPersons = new Object[0];//Call the controler to search if * is not the search
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
