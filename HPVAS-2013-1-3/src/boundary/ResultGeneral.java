@@ -4,19 +4,91 @@
  */
 package boundary;
 
+import Model.Owner;
+import Model.Pet;
+import Model.Veterinarian;
+import java.util.LinkedList;
+import java.util.Queue;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author lin
  */
-public class ResultGeneral extends javax.swing.JPanel {
+public class ResultGeneral extends javax.swing.JPanel implements
+        EmbeddedHPVAPanel {
+    private MainWindow mainWindow;
+    private Pet[] resultsPet;
+    private Veterinarian[] resultsVet;
+    private Owner[] resultsOwner;
 
     /**
      * Creates new form Add
      */
-    public ResultGeneral() {
+    public ResultGeneral(MainWindow mainWindow) {
         initComponents();
+        this.mainWindow = mainWindow;
     }
 
+    @Override
+    public void save() throws IllegalArgumentException {
+        //Does nothing
+    }
+
+    @Override
+    public void update() {
+        DefaultTableModel tableModel = (DefaultTableModel)tableResultGen.
+                getModel();
+        
+        for (Owner owner : resultsOwner) {
+            tableModel.addRow(new Object[]{
+                owner.getName(),
+                "Owner"
+            });
+        }
+        
+        for (Veterinarian vet : resultsVet) {
+            tableModel.addRow(new Object[]{
+                vet.getName(),
+                "Veterinarian"
+            });
+        }
+        
+        for (Pet pet : resultsPet) {
+            tableModel.addRow(new Object[]{
+                pet.getName(),
+                "Pet"
+            });
+        }
+    }
+
+    public void setResults(Pet[] resultsPet, Veterinarian[] resultsVet, 
+            Owner[] resultsOwner) {
+        this.resultsPet = resultsPet;
+        this.resultsVet = resultsVet;
+        this.resultsOwner = resultsOwner;
+    }
+
+    void setResults(Object[] petsPersons) {
+        Queue<Owner> owners = new LinkedList<Owner>();
+        Queue<Pet> pets = new LinkedList<Pet>();
+        Queue<Veterinarian> vets = new LinkedList<Veterinarian>();
+        
+        for (Object petPerson : petsPersons) {
+            if(petPerson instanceof Owner) {
+                owners.offer((Owner) petPerson);
+            } else if (petPerson instanceof Pet) {
+                pets.offer((Pet) petPerson);
+            } else if (petPerson instanceof Veterinarian) {
+                vets.offer((Veterinarian) petPerson);
+            }  
+        }
+        
+        this.resultsOwner = owners.toArray(new Owner[owners.size()]);
+        this.resultsVet = vets.toArray(new Veterinarian[vets.size()]);
+        this.resultsPet = pets.toArray(new Pet[pets.size()]);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,14 +109,22 @@ public class ResultGeneral extends javax.swing.JPanel {
                 "Name", "Type"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        tableResultGen.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tableResultGen);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

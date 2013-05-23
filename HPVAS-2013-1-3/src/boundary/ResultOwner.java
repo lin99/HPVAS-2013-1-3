@@ -6,6 +6,7 @@ package boundary;
 
 import Model.Owner;
 import javax.swing.table.DefaultTableModel;
+import Controller.*;
 
 /**
  * @author Lina Fernanda Rosales Castro <href="mailto:lfrosalesc@unal.edu.co">lfrosalesc@unal.edu.co</href> 
@@ -58,6 +59,8 @@ public class ResultOwner extends javax.swing.JPanel implements
         for (int i = 0; i < pets.length && i < money.length; i++) {
             tableNameMoneyModel.addRow(new Object[]{pets[i], money[i]});
         }
+        
+        setVisible(true);
     }
     
     public void setOwner(Owner owner, String[] pets, double[] money) {

@@ -4,22 +4,44 @@
  */
 package boundary;
 
+import Model.Owner;
+import Model.Pet;
+import Model.Veterinarian;
+import java.awt.Color;
 import java.util.LinkedList;
 import java.util.Queue;
+import javax.swing.GroupLayout;
 import javax.swing.JPanel;
+import Controller.*;
 
 /**
  *
- * @author Lina Fernanda Rosales Castro <href="mailto:lfrosalesc@unal.edu.co">lfrosalesc@unal.edu.co</href> 
- * @author Andrés Sarmiento Tobón <href="mailto:ansarmientoto@unal.edu.co">ansarmientoto@unal.edu.co</href>
+ * @author Lina Fernanda Rosales Castro
+ * <href="mailto:lfrosalesc@unal.edu.co">lfrosalesc@unal.edu.co</href>
+ * @author Andrés Sarmiento Tobón
+ * <href="mailto:ansarmientoto@unal.edu.co">ansarmientoto@unal.edu.co</href>
  */
 public class MainWindow extends javax.swing.JFrame {
+
+    private AddGeneral addGeneral;
+    private ResultOwner resultOwner;
+    private ResultPet resultPet;
+    private ResultVet resultVet;
+    private JPanel currentPanel;
+    private ResultGeneral resultGeneral;
 
     /**
      * Creates new form MainWindow
      */
     public MainWindow() {
         initComponents();
+        addGeneral = new AddGeneral(this);
+        resultOwner = new ResultOwner(this);
+        resultPet = new ResultPet(this);
+        resultVet = new ResultVet(this);
+        resultGeneral = new ResultGeneral(this);
+        setLocationRelativeTo(null);
+        System.out.println("Location: " + checkBoxOwner.getLocation());
     }
 
     /**
@@ -52,35 +74,59 @@ public class MainWindow extends javax.swing.JFrame {
 
         textFieldQuery.setForeground(java.awt.Color.lightGray);
         textFieldQuery.setText("Search here... ");
+        textFieldQuery.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                textFieldQueryFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                textFieldQueryFocusLost(evt);
+            }
+        });
 
-        checkBoxOwner.setBackground(new java.awt.Color(253, 253, 253));
+        checkBoxOwner.setBackground(new java.awt.Color(255, 255, 255));
         checkBoxOwner.setText("Owner");
-        checkBoxOwner.setEnabled(false);
+        checkBoxOwner.setOpaque(false);
         checkBoxOwner.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkBoxOwnerActionPerformed(evt);
             }
         });
 
-        checkBoxVet.setBackground(new java.awt.Color(253, 253, 253));
+        checkBoxVet.setBackground(new java.awt.Color(255, 255, 255));
         checkBoxVet.setText("Vet");
-        checkBoxVet.setEnabled(false);
+        checkBoxVet.setOpaque(false);
 
-        checkBoxPet.setBackground(new java.awt.Color(253, 253, 253));
+        checkBoxPet.setBackground(new java.awt.Color(255, 255, 255));
         checkBoxPet.setText("Pet");
         checkBoxPet.setEnabled(false);
+        checkBoxPet.setOpaque(false);
 
         buttonSearch.setBackground(new java.awt.Color(255, 255, 255));
         buttonSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boundary/search.png"))); // NOI18N
         buttonSearch.setText("Search");
+        buttonSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSearchActionPerformed(evt);
+            }
+        });
 
         buttonAddQuery.setBackground(new java.awt.Color(255, 255, 255));
         buttonAddQuery.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boundary/addSearch.png"))); // NOI18N
         buttonAddQuery.setText("Add");
+        buttonAddQuery.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAddQueryActionPerformed(evt);
+            }
+        });
 
         buttonSave.setBackground(new java.awt.Color(255, 255, 255));
         buttonSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boundary/save.png"))); // NOI18N
         buttonSave.setText("Save Now");
+        buttonSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSaveActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelSearchLayout = new javax.swing.GroupLayout(panelSearch);
         panelSearch.setLayout(panelSearchLayout);
@@ -109,19 +155,20 @@ public class MainWindow extends javax.swing.JFrame {
         panelSearchLayout.setVerticalGroup(
             panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSearchLayout.createSequentialGroup()
-                .addGroup(panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(textFieldQuery, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonAddQuery))
-                .addGap(18, 18, 18)
-                .addGroup(panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(checkBoxOwner)
-                    .addComponent(checkBoxVet)
-                    .addComponent(checkBoxPet)
-                    .addComponent(buttonSearch))
-                .addGap(0, 14, Short.MAX_VALUE))
-            .addGroup(panelSearchLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(buttonSave)
+                .addGroup(panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelSearchLayout.createSequentialGroup()
+                        .addGroup(panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(textFieldQuery, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(buttonAddQuery))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(buttonSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(checkBoxOwner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(checkBoxVet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(checkBoxPet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(panelSearchLayout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(buttonSave)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -183,6 +230,71 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_checkBoxOwnerActionPerformed
 
+    private void buttonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSearchActionPerformed
+        String search = textFieldQuery.getText();
+
+        if (search.trim().intern() == "*") {
+            Owner[] owners = new Owner[0];
+            
+            if (checkBoxOwner.isSelected()) {
+                owners = new Owner[0];//Call the controller to get all the Owners
+            }
+
+            Pet[] pets = new Pet[0];
+            
+            if (checkBoxPet.isSelected()) {
+                pets = new Pet[0];//Call the controller to get all the Pets
+            }
+
+            Veterinarian[] vets = new Veterinarian[0];
+            
+            if (checkBoxVet.isSelected()) {
+                vets = new Veterinarian[0];//Call the controller to get all the Vets
+            }
+
+            resultGeneral.setResults(pets, vets, owners);
+            resultGeneral.update();
+            setEmbeddedPanel(resultGeneral);
+        } else {
+            search(search);
+        }
+    }//GEN-LAST:event_buttonSearchActionPerformed
+
+    private void buttonAddQueryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddQueryActionPerformed
+        boolean wellFormed = Controller.ControllerFormatting.validateSSN(
+                textFieldQuery.getText());
+        
+        if(wellFormed) {
+            checkBoxPet.setEnabled(false);
+            checkBoxPet.setSelected(false);
+        } else {
+            checkBoxPet.setEnabled(true);
+        }
+        
+        checkBoxOwner.setVisible(true);
+        checkBoxPet.setVisible(true);
+        checkBoxVet.setVisible(true);
+    }//GEN-LAST:event_buttonAddQueryActionPerformed
+
+    private void textFieldQueryFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldQueryFocusGained
+        if(textFieldQuery.getText().intern() == "Search here... ") {
+            textFieldQuery.setText("");
+            textFieldQuery.setForeground(Color.BLACK);
+        }
+    }//GEN-LAST:event_textFieldQueryFocusGained
+
+    private void textFieldQueryFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldQueryFocusLost
+        if(textFieldQuery.getText().intern() == "") {
+            textFieldQuery.setText("Search here... ");
+            textFieldQuery.setForeground(Color.LIGHT_GRAY);
+        }
+    }//GEN-LAST:event_textFieldQueryFocusLost
+
+    private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
+        ((EmbeddedHPVAPanel) currentPanel).save();
+        ((EmbeddedHPVAPanel) currentPanel).update();
+    }//GEN-LAST:event_buttonSaveActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -193,20 +305,25 @@ public class MainWindow extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (javax.swing.UIManager.LookAndFeelInfo info
+                    : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(
+                    java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(
+                    java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(
+                    java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(
+                    java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -217,17 +334,63 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
     }
-    
     private Queue<JPanel> previousPanels = new LinkedList<JPanel>();
-    
+
     public void loadPreviousPanel() {
+        JPanel panel = previousPanels.poll();
         
+        if (panel != null) {
+            GroupLayout panelResultsLayout = (GroupLayout) panelResults
+                    .getLayout();
+            panelResultsLayout.setHorizontalGroup(
+                    panelResultsLayout.createParallelGroup(
+                    GroupLayout.Alignment.LEADING)
+                    .addComponent(panel, GroupLayout.DEFAULT_SIZE,
+                    GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+            panelResultsLayout.setVerticalGroup(
+                    panelResultsLayout.createParallelGroup(
+                    GroupLayout.Alignment.LEADING)
+                    .addComponent(panel, GroupLayout.DEFAULT_SIZE,
+                    GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+            
+            panel.repaint();
+        }
     }
-    
+
     private void search(String search) {
-        Object[] petsPersons = new Object[0];//Call the controler to search if * is not the search
+        Pet[] pets = ControllerSearch.searchPetsByName(search).toArray(
+                new Pet[0]);
+        Owner[] owners = ControllerSearch.searchOwnerByNames(search).toArray(
+                new Owner[0]);
+        Veterinarian[] vets = ControllerSearch.searchVeterinarianByNames(search)
+                .toArray(new Veterinarian[0]);
+        resultGeneral.setResults(pets, vets, owners);
+        resultGeneral.update();
+        setEmbeddedPanel(resultGeneral);
     }
-    
+
+    private void setEmbeddedPanel(JPanel panel) {
+        if (panel != currentPanel) {
+            GroupLayout panelResultsLayout = (GroupLayout) panelResults
+                    .getLayout();
+            panelResultsLayout.setHorizontalGroup(
+                    panelResultsLayout.createParallelGroup(
+                    GroupLayout.Alignment.LEADING)
+                    .addComponent(panel, GroupLayout.DEFAULT_SIZE,
+                    GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+            panelResultsLayout.setVerticalGroup(
+                    panelResultsLayout.createParallelGroup(
+                    GroupLayout.Alignment.LEADING)
+                    .addComponent(panel, GroupLayout.DEFAULT_SIZE,
+                    GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+            
+            panel.repaint();
+            
+            previousPanels.add(currentPanel);
+            currentPanel = panel;
+            ((EmbeddedHPVAPanel) currentPanel).update();
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelMain;
     private javax.swing.JButton buttonAddQuery;

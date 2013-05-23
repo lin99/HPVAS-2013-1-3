@@ -11,6 +11,7 @@ import java.awt.Image;
 import java.util.Queue;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import Controller.*;
 
 /**
  * @author Lina Fernanda Rosales Castro <href="mailto:lfrosalesc@unal.edu.co">lfrosalesc@unal.edu.co</href> 
@@ -102,6 +103,7 @@ public class ResultPet extends javax.swing.JPanel implements
                 vets[i]
             });
         }
+        setVisible(true);
     }
     
     public void setPet(Pet pet) {
@@ -360,10 +362,20 @@ public class ResultPet extends javax.swing.JPanel implements
         buttonAddPet.setBackground(new java.awt.Color(255, 255, 255));
         buttonAddPet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boundary/add.png"))); // NOI18N
         buttonAddPet.setText("Add");
+        buttonAddPet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAddAccoActionPerformed(evt);
+            }
+        });
 
         buttonDelPet.setBackground(new java.awt.Color(255, 255, 255));
         buttonDelPet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boundary/delete.png"))); // NOI18N
         buttonDelPet.setText("Delete");
+        buttonDelPet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDelAccoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelMedRecPetLayout = new javax.swing.GroupLayout(panelMedRecPet);
         panelMedRecPet.setLayout(panelMedRecPetLayout);
@@ -434,6 +446,26 @@ public class ResultPet extends javax.swing.JPanel implements
     private void buttonBackPetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBackPetActionPerformed
         mainWindow.loadPreviousPanel();
     }//GEN-LAST:event_buttonBackPetActionPerformed
+
+    private void buttonDelAccoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDelAccoActionPerformed
+        int index = tableAppo.getSelectedRow();
+        
+        if(index >= 0) {
+            appoinmentsDel.offer((String) tableAppo.getValueAt(index, 0));
+            
+            ((DefaultTableModel) tableAppo.getModel()).removeRow(index);
+
+            if (tableAppo.getRowCount() > 0) {
+                index = Math.min(index, tableAppo.getRowCount() - 1);
+                tableAppo.getSelectionModel()
+                        .setSelectionInterval(index, index);
+            }
+        }
+    }//GEN-LAST:event_buttonDelAccoActionPerformed
+
+    private void buttonAddAccoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddAccoActionPerformed
+        ((DefaultTableModel) tableAppo.getModel()).addRow(new Object[] {});
+    }//GEN-LAST:event_buttonAddAccoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAddPet;

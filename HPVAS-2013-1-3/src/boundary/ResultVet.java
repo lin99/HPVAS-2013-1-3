@@ -8,6 +8,7 @@ import Model.Veterinarian;
 import java.util.LinkedList;
 import java.util.Queue;
 import javax.swing.table.DefaultTableModel;
+import Controller.*;
 
 /**
  * @author Lina Fernanda Rosales Castro <href="mailto:lfrosalesc@unal.edu.co">lfrosalesc@unal.edu.co</href> 
@@ -73,6 +74,8 @@ public class ResultVet extends javax.swing.JPanel implements
                 specieVet[i]
             });
         }
+        
+        setVisible(true);
     }
 
     public void setVet(Veterinarian vet, String[] nameVet, String[] specieVet) {

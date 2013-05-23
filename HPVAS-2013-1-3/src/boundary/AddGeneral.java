@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import Controller.*;
 
 /**
  *
@@ -21,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class AddGeneral extends javax.swing.JPanel implements
         EmbeddedHPVAPanel {
+
     private MainWindow mainWindow;
     private Queue<String> ownersDel;
     private Queue<String> petDel;
@@ -28,7 +30,8 @@ public class AddGeneral extends javax.swing.JPanel implements
 
     /**
      * Creates new form AddGeneral
-     * @param mainWindow 
+     * <p/>
+     * @param mainWindow
      */
     public AddGeneral(MainWindow mainWindow) {
         initComponents();
@@ -38,21 +41,21 @@ public class AddGeneral extends javax.swing.JPanel implements
     @Override
     public void save() throws IllegalArgumentException {
         //Deletions
-        while(!ownersDel.isEmpty()) {
+        while (!ownersDel.isEmpty()) {
             String ssn = ownersDel.poll();
-            //Call the controller to remove a person
+            ControllerDeletions.deletePersonBySNN(ssn);
         }
-        
-        while(!vetDel.isEmpty()) {
+
+        while (!vetDel.isEmpty()) {
             String ssn = vetDel.poll();
-            //Call the controller to remove a Vet
+            ControllerDeletions.deleteVetBySNN(ssn);
         }
-        
-        while(!petDel.isEmpty()) {
+
+        while (!petDel.isEmpty()) {
             String name = petDel.poll();
-            //Call the controller to remove a Pet
+            ControllerDeletions.deletePetByName(name);
         }
-        
+
         //Owners
         for (int i = 0; i < tableOwnerAG.getRowCount(); i++) {
             String nameOwner = (String) tableOwnerAG.getValueAt(i, 0);
@@ -61,7 +64,8 @@ public class AddGeneral extends javax.swing.JPanel implements
             String birthDateOwner = (String) tableOwnerAG.getValueAt(i, 3);
             String birthPlaceOwner = (String) tableOwnerAG.getValueAt(i, 4);
 
-            //Call the controller and passes all this values
+            ControllerCreationOrUpdates.createOrUpdateOwner(nameOwner,
+                    lastNameOwner, sSNOwner, birthDateOwner, birthPlaceOwner);
         }
 
         //Pets
@@ -72,7 +76,8 @@ public class AddGeneral extends javax.swing.JPanel implements
             Float weight = (Float) tablePetAG.getValueAt(i, 3);
             String owner = (String) tablePetAG.getValueAt(i, 4);
 
-            //Call the controller and passes all this values
+            ControllerCreationOrUpdates.createOrUpdatePet(namePet, specie, age
+                    .toString(), weight.toString(), owner);
         }
 
         //Vets
@@ -87,7 +92,9 @@ public class AddGeneral extends javax.swing.JPanel implements
             String focus = (String) tableVetAG.getValueAt(i, 7);
             String speciality = (String) tableVetAG.getValueAt(i, 8);
 
-            //Call the controller and passes all this values
+            ControllerCreationOrUpdates.createOrUpdateVeterinarian(nameVet,
+                    lastNameVet, salary, graduated, sSNVet, birthDateVet,
+                    birthPlaceVet, focus, speciality);
         }
     }
 
@@ -112,21 +119,21 @@ public class AddGeneral extends javax.swing.JPanel implements
                 owner.getBirthplace()
             });
         }
-        
+
         ownersDel = new LinkedList<String>();
 
         //Pets
         DefaultTableModel tablePetModel = (DefaultTableModel) tablePetAG
                 .getModel();
 
-        while(tablePetModel.getRowCount() > 0) {
+        while (tablePetModel.getRowCount() > 0) {
             tablePetModel.removeRow(0);
         }
 
         Pet[] pets = new Pet[0];//Call the controller to get all the Pets
-        
+
         for (Pet pet : pets) {
-            tablePetModel.addRow(new Object[]{
+            tablePetModel.addRow(new Object[] {
                 pet.getName(),
                 pet.getSpecies(),
                 pet.getAge(),
@@ -134,21 +141,21 @@ public class AddGeneral extends javax.swing.JPanel implements
                 pet.getOwner().getSsn()
             });
         }
-        
+
         petDel = new LinkedList<String>();
-        
+
         //Vets
         DefaultTableModel tableVetModel = (DefaultTableModel) tableVetAG
                 .getModel();
-        
-        while(tableVetModel.getRowCount() > 0) {
+
+        while (tableVetModel.getRowCount() > 0) {
             tableVetModel.removeRow(0);
         }
 
         Veterinarian[] vets = new Veterinarian[0];//Call the controller to get all the Vets
-        
+
         for (Veterinarian vet : vets) {
-            tableVetModel.addRow(new Object[]{
+            tableVetModel.addRow(new Object[] {
                 vet.getName(),
                 vet.getLastName(),
                 vet.getSalary(),
@@ -160,8 +167,9 @@ public class AddGeneral extends javax.swing.JPanel implements
                 vet.getSpecialities()
             });
         }
-        
+
         vetDel = new LinkedList<String>();
+        setVisible(true);
     }
 
     /**
@@ -402,22 +410,22 @@ public class AddGeneral extends javax.swing.JPanel implements
 
     private void buttonAddGenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddGenActionPerformed
         int index = tabbedPaneGen.getSelectedIndex();
-        
+
         switch (index) {
             case 0:
-                String ssn = JOptionPane.showInputDialog(this, 
+                String ssn = JOptionPane.showInputDialog(this,
                         "Please input the ssn of the person.", "Input SSN",
                         JOptionPane.OK_OPTION);
                 addOwner(ssn);
                 break;
             case 1:
-                String name = JOptionPane.showInputDialog(this, 
+                String name = JOptionPane.showInputDialog(this,
                         "Please input the name of the pet.", "Input Name",
                         JOptionPane.OK_OPTION);
                 addPet(name);
                 break;
             case 2:
-                 ssn = JOptionPane.showInputDialog(this, 
+                ssn = JOptionPane.showInputDialog(this,
                         "Please input the ssn of the person.", "Input SSN",
                         JOptionPane.OK_OPTION);
                 addVet(ssn);
@@ -446,7 +454,6 @@ public class AddGeneral extends javax.swing.JPanel implements
     private void buttonBackGenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBackGenActionPerformed
         mainWindow.loadPreviousPanel();
     }//GEN-LAST:event_buttonBackGenActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAddGen;
     private javax.swing.JButton buttonBackGen;
@@ -464,14 +471,14 @@ public class AddGeneral extends javax.swing.JPanel implements
     // End of variables declaration//GEN-END:variables
 
     private void addOwner(String ssn) {
-        boolean goodFormat = true;//Calls the controller to know if the ssn is well-formed.
-        
+        boolean goodFormat = ControllerFormatting.validateSSN(ssn);
+
         if (goodFormat) {
             ((DefaultTableModel) tableOwnerAG.getModel())
                     .addRow(new Object[] {});
             tableOwnerAG.setValueAt(ssn, tableOwnerAG.getRowCount() - 1, 2);
         } else {
-            JOptionPane.showMessageDialog(this, 
+            JOptionPane.showMessageDialog(this,
                     "Error: The SSN doesn't match the standards.", "Error: SSN",
                     JOptionPane.ERROR_MESSAGE);
         }
@@ -483,13 +490,13 @@ public class AddGeneral extends javax.swing.JPanel implements
     }
 
     private void addVet(String ssn) {
-        boolean goodFormat = true;//Calls the controller to know if the ssn is well-formed.
-        
+        boolean goodFormat = ControllerFormatting.validateSSN(ssn);
+
         if (goodFormat) {
             ((DefaultTableModel) tableVetAG.getModel()).addRow(new Object[] {});
             tableVetAG.setValueAt(ssn, tableVetAG.getRowCount() - 1, 4);
         } else {
-            JOptionPane.showMessageDialog(this, 
+            JOptionPane.showMessageDialog(this,
                     "Error: The SSN doesn't match the standards.", "Error: SSN",
                     JOptionPane.ERROR_MESSAGE);
         }
@@ -500,7 +507,7 @@ public class AddGeneral extends javax.swing.JPanel implements
 
         if (index >= 0) {
             ownersDel.offer((String) tableOwnerAG.getValueAt(index, 2));
-            
+
             ((DefaultTableModel) tableOwnerAG.getModel()).removeRow(index);
 
             if (tableOwnerAG.getRowCount() > 0) {
@@ -516,7 +523,7 @@ public class AddGeneral extends javax.swing.JPanel implements
 
         if (index >= 0) {
             petDel.offer((String) tablePetAG.getValueAt(index, 0));
-            
+
             ((DefaultTableModel) tablePetAG.getModel()).removeRow(index);
 
             if (tablePetAG.getRowCount() > 0) {
@@ -532,7 +539,7 @@ public class AddGeneral extends javax.swing.JPanel implements
 
         if (index >= 0) {
             vetDel.offer((String) tableVetAG.getValueAt(index, 4));
-            
+
             ((DefaultTableModel) tableVetAG.getModel()).removeRow(index);
 
             if (tableVetAG.getRowCount() > 0) {
