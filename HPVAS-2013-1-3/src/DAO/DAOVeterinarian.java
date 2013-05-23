@@ -54,7 +54,7 @@ public class DAOVeterinarian {
         EntityManager em = emf.createEntityManager();
         Query q;
         q = em.createQuery("SELECT v FROM Veterinarian v "
-          + "WHERE v.name LIKE %"+":name"+"%")
+          + "WHERE v.name LIKE CONCAT('%',:name,'%')")
           .setParameter("name", name);
         List<Veterinarian> veterinarians = null;
         try {

@@ -53,8 +53,8 @@ public void create(Owner owner) {
         EntityManager em = emf.createEntityManager();
         Query q;
         q = em.createQuery("SELECT o FROM Owner o "
-          + "WHERE o.name LIKE %"+":name"+"%")
-          .setParameter("name", name);
+          + "WHERE o.name LIKE CONCAT('%',:name,'%')")
+                .setParameter("name", name);
         List<Owner> owners = null;
         try {
             owners = q.getResultList();

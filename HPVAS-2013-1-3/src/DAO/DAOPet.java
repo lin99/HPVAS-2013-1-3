@@ -98,7 +98,7 @@ public class DAOPet {
         EntityManager em = emf.createEntityManager();
         Query q;
         q = em.createQuery("SELECT p FROM Pet p "
-          + "WHERE p.name LIKE %"+":name"+"%")
+          + "WHERE p.name LIKE CONCAT('%',:name,'%')")
           .setParameter("name", name);
         List<Pet> pets = null;
         try {
