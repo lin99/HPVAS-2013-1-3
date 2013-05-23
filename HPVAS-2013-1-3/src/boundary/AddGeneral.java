@@ -108,7 +108,7 @@ public class AddGeneral extends javax.swing.JPanel implements
             tableOwnerModel.removeRow(0);
         }
 
-        Owner[] owners = new Owner[0];//Call the controller to get all the Owners
+        Owner[] owners = ControllerListOfTheEntities.readAllOwners();
 
         for (Owner owner : owners) {
             tableOwnerModel.addRow(new Object[] {
@@ -130,7 +130,7 @@ public class AddGeneral extends javax.swing.JPanel implements
             tablePetModel.removeRow(0);
         }
 
-        Pet[] pets = new Pet[0];//Call the controller to get all the Pets
+        Pet[] pets = ControllerListOfTheEntities.readAllPets();
 
         for (Pet pet : pets) {
             tablePetModel.addRow(new Object[] {
@@ -152,7 +152,8 @@ public class AddGeneral extends javax.swing.JPanel implements
             tableVetModel.removeRow(0);
         }
 
-        Veterinarian[] vets = new Veterinarian[0];//Call the controller to get all the Vets
+        Veterinarian[] vets = ControllerListOfTheEntities
+                .readAllVeteterinarians();
 
         for (Veterinarian vet : vets) {
             tableVetModel.addRow(new Object[] {

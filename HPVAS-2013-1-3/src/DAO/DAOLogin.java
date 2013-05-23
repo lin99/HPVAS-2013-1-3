@@ -5,7 +5,6 @@
 package DAO;
 
 import Model.Login;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -16,9 +15,14 @@ import javax.persistence.Query;
  * @author Fredy Virguez
  */
 public class DAOLogin {
-    
-    public void create(Login login) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
+
+    /**
+     *
+     * @param login
+     */
+    public static void create(Login login) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+                "HPVAS");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {
@@ -31,14 +35,21 @@ public class DAOLogin {
         }
     }
 
-    public boolean delete(Login login) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
+    /**
+     *
+     * @param login
+     * @return
+     */
+    public static boolean delete(Login login) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+                "HPVAS");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         boolean ret = false;
         try {
             login = read(login.getUserName());
-            Query q = em.createQuery("DELETE FROM Login l WHERE l.userName = :username")
+            Query q = em.createQuery(
+                    "DELETE FROM Login l WHERE l.userName = :username")
                     .setParameter("username", login.getUserName());
             q.executeUpdate();
             em.getTransaction().commit();
@@ -52,11 +63,17 @@ public class DAOLogin {
         }
     }
 
-    public Login read(String userName) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
+    /**
+     *
+     * @param userName
+     * @return
+     */
+    public static Login read(String userName) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+                "HPVAS");
         EntityManager em = emf.createEntityManager();
-        Query q = em.createQuery("SELECT l FROM Login l "
-                + "WHERE l.userName = :username")
+        Query q = em.createQuery("SELECT l FROM Login l " +
+                 "WHERE l.userName = :username")
                 .setParameter("username", userName);
         Login login = null;
         try {
@@ -68,8 +85,15 @@ public class DAOLogin {
         }
     }
 
-    public boolean update(Login actual, Login theNew) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
+    /**
+     *
+     * @param actual
+     * @param theNew
+     * @return
+     */
+    public static boolean update(Login actual, Login theNew) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+                "HPVAS");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         boolean ret = false;
@@ -86,5 +110,4 @@ public class DAOLogin {
             return ret;
         }
     }
-    
 }

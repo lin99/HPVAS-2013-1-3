@@ -14,43 +14,75 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 public class Vacine {
+
     @Id
     private Long id;
     private String name;
     private float dossage;
-    @ManyToOne(optional=false)
+    @ManyToOne(optional = false)
     private MedicalRecord medicalRecord;
 
+    /**
+     *
+     * @return
+     */
     public MedicalRecord getMedicalRecord() {
         return medicalRecord;
     }
 
+    /**
+     *
+     * @param medicalRecord
+     */
     public void setMedicalRecord(MedicalRecord medicalRecord) {
         this.medicalRecord = medicalRecord;
     }
-    
+
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @return
+     */
     public float getDossage() {
         return dossage;
     }
 
+    /**
+     *
+     * @param dossage
+     */
     public void setDossage(float dossage) {
         this.dossage = dossage;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
-    
 }

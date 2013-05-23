@@ -14,16 +14,23 @@ import javax.persistence.OneToMany;
  */
 @Entity
 public class Owner extends Person {
-    
-    @OneToMany(mappedBy="owner")
+
+    @OneToMany(mappedBy = "owner")
     private List<Pet> pets;
 
+    /**
+     *
+     * @return
+     */
     public List<Pet> getPets() {
         return pets;
     }
 
+    /**
+     *
+     * @param pets
+     */
     public void setPets(List<Pet> pets) {
         this.pets = pets;
     }
-    
 }

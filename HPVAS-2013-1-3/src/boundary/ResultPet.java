@@ -14,11 +14,14 @@ import javax.swing.table.DefaultTableModel;
 import Controller.*;
 
 /**
- * @author Lina Fernanda Rosales Castro <href="mailto:lfrosalesc@unal.edu.co">lfrosalesc@unal.edu.co</href> 
- * @author Andrés Sarmiento Tobón <href="mailto:ansarmientoto@unal.edu.co">ansarmientoto@unal.edu.co</href>
+ * @author Lina Fernanda Rosales Castro
+ * <href="mailto:lfrosalesc@unal.edu.co">lfrosalesc@unal.edu.co</href>
+ * @author Andrés Sarmiento Tobón
+ * <href="mailto:ansarmientoto@unal.edu.co">ansarmientoto@unal.edu.co</href>
  */
 public class ResultPet extends javax.swing.JPanel implements
         EmbeddedHPVAPanel {
+
     private MainWindow mainWindow;
     private Pet pet;
     private static Image currentImage;
@@ -32,6 +35,7 @@ public class ResultPet extends javax.swing.JPanel implements
 
     /**
      * Creates new form ResultPet
+     * @param mainWindow 
      */
     public ResultPet(MainWindow mainWindow) {
         initComponents();
@@ -45,58 +49,61 @@ public class ResultPet extends javax.swing.JPanel implements
         String age = textFieldAgePet.getText();
         String weight = textFieldWeightPet.getText();
         String owner = textFieldOwner.getText();
-        
-        //Call controller and passes all the arguments
-        
-        while(!appoinmentsDel.isEmpty()) {
+
+        ControllerCreationOrUpdates.createOrUpdatePet(name, specie, age, weight,
+                owner);
+
+        while (!appoinmentsDel.isEmpty()) {
             String vetDel = appoinmentsDel.poll();
-            //Call the controller to delete an appoinment(name, vetDel)
+            ControllerDeletions.deleteAppointment(name, vetDel);
         }
-        
+
         for (int i = 0; i < tableAppo.getRowCount(); i++) {
             String date = (String) tableAppo.getValueAt(i, 0);
             String charge = (String) tableAppo.getValueAt(i, 1);
             String note = (String) tableAppo.getValueAt(i, 2);
             String vetSSN = (String) tableAppo.getValueAt(i, 3);
 
-            //Call the controller to add/update an appoinment
+            ControllerCreationOrUpdates.createOrUpdateAppointment(name, date,
+                    charge, note, vetSSN);
         }
     }
-    
+
     @Override
     public void update() {
         ResultPet.setCurrentImage(pet.getPicture());
         panelPhotoPet.repaint();
-        
+
         textFieldAgePet.setText("" + pet.getAge());
         textFieldNamePet.setText(pet.getName());
         textFieldOwner.setText(pet.getOwner().getSsn());
         textFieldSpeciePet.setText(pet.getSpecies());
         textFieldWeightPet.setText("" + pet.getWeight());
-        
-        DefaultTableModel tableVaccineModel = (DefaultTableModel) 
-                tableVaccine.getModel();
-        
-        while (tableVaccineModel.getRowCount() > 0) {            
+
+        DefaultTableModel tableVaccineModel = (DefaultTableModel) tableVaccine
+                .getModel();
+
+        while (tableVaccineModel.getRowCount() > 0) {
             tableVaccineModel.removeRow(0);
         }
-        
+
         for (int i = 0; i < namesDrugs.length && i < dosages.length; i++) {
-            tableVaccineModel.addRow(new Object[]{
+            tableVaccineModel.addRow(new Object[] {
                 namesDrugs[i],
                 dosages[i]
             });
         }
-        
-        DefaultTableModel tableAppoModel = (DefaultTableModel) 
-                tableAppo.getModel();
-        
-        while (tableAppoModel.getRowCount() > 0) {            
+
+        DefaultTableModel tableAppoModel = (DefaultTableModel) tableAppo
+                .getModel();
+
+        while (tableAppoModel.getRowCount() > 0) {
             tableAppoModel.removeRow(0);
         }
-        
-        for (int i = 0; i < dates.length && i < charges.length && i < notes.length && i < vets.length; i++) {
-            tableAppoModel.addRow(new Object[]{
+
+        for (int i = 0; i < dates.length && i < charges.length && i <
+                notes.length && i < vets.length; i++) {
+            tableAppoModel.addRow(new Object[] {
                 dates[i],
                 charges[i],
                 notes[i],
@@ -105,31 +112,56 @@ public class ResultPet extends javax.swing.JPanel implements
         }
         setVisible(true);
     }
-    
+
+    /**
+     *
+     * @param pet
+     */
     public void setPet(Pet pet) {
         this.pet = pet;
     }
-    
+
+    /**
+     *
+     * @param namesDrugs
+     * @param dosages
+     */
     public void setNameDosage(String[] namesDrugs, String[] dosages) {
         this.namesDrugs = namesDrugs;
         this.dosages = dosages;
     }
-    
-    public void setDateChargeNotesVet(String[] dates, String[] charges, String[] notes, String[] vets) {
+
+    /**
+     *
+     * @param dates
+     * @param charges
+     * @param notes
+     * @param vets
+     */
+    public void setDateChargeNotesVet(String[] dates, String[] charges,
+            String[] notes, String[] vets) {
         this.dates = dates;
         this.charges = charges;
         this.notes = notes;
         this.vets = vets;
     }
-    
+
+    /**
+     *
+     * @return
+     */
     public static Image getCurrentImage() {
         return currentImage;
     }
 
+    /**
+     *
+     * @param bytes
+     */
     public static void setCurrentImage(byte[] bytes) {
-        currentImage = null;//Call the controller to convert from byte[] to Image
+        currentImage = ControllerImageConversion.parseImage(bytes);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -449,10 +481,10 @@ public class ResultPet extends javax.swing.JPanel implements
 
     private void buttonDelAccoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDelAccoActionPerformed
         int index = tableAppo.getSelectedRow();
-        
-        if(index >= 0) {
+
+        if (index >= 0) {
             appoinmentsDel.offer((String) tableAppo.getValueAt(index, 0));
-            
+
             ((DefaultTableModel) tableAppo.getModel()).removeRow(index);
 
             if (tableAppo.getRowCount() > 0) {
@@ -466,7 +498,6 @@ public class ResultPet extends javax.swing.JPanel implements
     private void buttonAddAccoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddAccoActionPerformed
         ((DefaultTableModel) tableAppo.getModel()).addRow(new Object[] {});
     }//GEN-LAST:event_buttonAddAccoActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAddPet;
     private javax.swing.JButton buttonBackPet;

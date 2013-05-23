@@ -16,10 +16,19 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+/**
+ *
+ * @author andres
+ */
 public class DAOVeterinarian {
 
+    /**
+     *
+     * @param veterinarian
+     */
     public void create(Veterinarian veterinarian) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+                "HPVAS");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {
@@ -33,11 +42,17 @@ public class DAOVeterinarian {
 
     }
 
+    /**
+     *
+     * @param ssn
+     * @return
+     */
     public Veterinarian read(String ssn) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+                "HPVAS");
         EntityManager em = emf.createEntityManager();
-        Query q = em.createQuery("SELECT v FROM Veterinarian v "
-                + "WHERE v.ssn LIKE :ssn")
+        Query q = em.createQuery("SELECT v FROM Veterinarian v " +
+                 "WHERE v.ssn LIKE :ssn")
                 .setParameter("ssn", ssn);
         Veterinarian veterinarian = null;
         try {
@@ -48,14 +63,20 @@ public class DAOVeterinarian {
             return veterinarian;
         }
     }
-    
+
+    /**
+     *
+     * @param name
+     * @return
+     */
     public List<Veterinarian> readByName(String name) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+                "HPVAS");
         EntityManager em = emf.createEntityManager();
         Query q;
-        q = em.createQuery("SELECT v FROM Veterinarian v "
-          + "WHERE v.name LIKE CONCAT('%',:name,'%')")
-          .setParameter("name", name);
+        q = em.createQuery("SELECT v FROM Veterinarian v " +
+                 "WHERE v.name LIKE CONCAT('%',:name,'%')")
+                .setParameter("name", name);
         List<Veterinarian> veterinarians = null;
         try {
             veterinarians = q.getResultList();
@@ -66,8 +87,35 @@ public class DAOVeterinarian {
         }
     }
 
+    /**
+     *
+     * @return
+     */
+    public List<Veterinarian> readAll() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+                "HPVAS");
+        EntityManager em = emf.createEntityManager();
+        Query q;
+        q = em.createQuery("SELECT * FROM Veterinarian");
+        List<Veterinarian> veterinarians = null;
+        try {
+            veterinarians = q.getResultList();
+        } catch (Exception e) {
+        } finally {
+            em.close();
+            return veterinarians;
+        }
+    }
+
+    /**
+     *
+     * @param actual
+     * @param newV
+     * @return
+     */
     public boolean update(Veterinarian actual, Veterinarian newV) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+                "HPVAS");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         boolean ret = false;
@@ -93,8 +141,14 @@ public class DAOVeterinarian {
         }
     }
 
+    /**
+     *
+     * @param veterinarian
+     * @return
+     */
     public boolean delete(Veterinarian veterinarian) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+                "HPVAS");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         boolean ret = false;
@@ -102,7 +156,8 @@ public class DAOVeterinarian {
             for (Appointment a : veterinarian.getAppointments()) {
                 new DAOAppointment().delete(a);
             }
-            Query q = em.createQuery("DELETE FROM Veterinarian v WHERE v.ssn = :ssn")
+            Query q = em.createQuery(
+                    "DELETE FROM Veterinarian v WHERE v.ssn = :ssn")
                     .setParameter("ssn", veterinarian.getSsn());
             q.executeUpdate();
             em.getTransaction().commit();

@@ -17,8 +17,14 @@ import javax.persistence.Query;
  * @author Fredy Virguez
  */
 public class DAOOwner {
-public void create(Owner owner) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
+
+    /**
+     *
+     * @param owner
+     */
+    public void create(Owner owner) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+                "HPVAS");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {
@@ -32,11 +38,17 @@ public void create(Owner owner) {
 
     }
 
+    /**
+     *
+     * @param ssn
+     * @return
+     */
     public Owner read(String ssn) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+                "HPVAS");
         EntityManager em = emf.createEntityManager();
-        Query q = em.createQuery("SELECT o FROM Owner o "
-                + "WHERE o.ssn LIKE :ssn")
+        Query q = em.createQuery("SELECT o FROM Owner o " +
+                "WHERE o.ssn LIKE :ssn")
                 .setParameter("ssn", ssn);
         Owner owner = null;
         try {
@@ -47,13 +59,19 @@ public void create(Owner owner) {
             return owner;
         }
     }
-    
+
+    /**
+     *
+     * @param name
+     * @return
+     */
     public List<Owner> readByName(String name) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+                "HPVAS");
         EntityManager em = emf.createEntityManager();
         Query q;
-        q = em.createQuery("SELECT o FROM Owner o "
-          + "WHERE o.name LIKE CONCAT('%',:name,'%')")
+        q = em.createQuery("SELECT o FROM Owner o " +
+                "WHERE o.name LIKE CONCAT('%',:name,'%')")
                 .setParameter("name", name);
         List<Owner> owners = null;
         try {
@@ -65,8 +83,35 @@ public void create(Owner owner) {
         }
     }
 
+    /**
+     *
+     * @return
+     */
+    public List<Owner> readAll() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+                "HPVAS");
+        EntityManager em = emf.createEntityManager();
+        Query q;
+        q = em.createQuery("SELECT * FROM Owner");
+        List<Owner> owners = null;
+        try {
+            owners = q.getResultList();
+        } catch (Exception e) {
+        } finally {
+            em.close();
+            return owners;
+        }
+    }
+
+    /**
+     *
+     * @param actual
+     * @param newO
+     * @return
+     */
     public boolean update(Owner actual, Owner newO) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+                "HPVAS");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         boolean ret = false;
@@ -88,8 +133,14 @@ public void create(Owner owner) {
         }
     }
 
+    /**
+     *
+     * @param owner
+     * @return
+     */
     public boolean delete(Owner owner) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+                "HPVAS");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         boolean ret = false;
@@ -109,5 +160,5 @@ public void create(Owner owner) {
             em.close();
             return ret;
         }
-    }    
+    }
 }

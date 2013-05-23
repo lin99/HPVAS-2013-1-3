@@ -4,6 +4,7 @@
  */
 package boundary;
 
+import Controller.ControllerLogIn;
 import javax.swing.JOptionPane;
 
 /**
@@ -137,8 +138,8 @@ public class LoginWindow extends javax.swing.JFrame {
     private void buttonlogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonlogInActionPerformed
         String user = textFieldEmployee.getText();
         String password = textFieldEmployee.getText();
-        
-        boolean correct = true;//Controller Log In
+
+        boolean correct = ControllerLogIn.login(user, password);
 
         if (correct) {
             /* Create and display the form */
@@ -148,8 +149,8 @@ public class LoginWindow extends javax.swing.JFrame {
                 }
             });
         } else {
-            JOptionPane.showMessageDialog(this, 
-                    "Error: Wrong username or password", "Error in Log In", 
+            JOptionPane.showMessageDialog(this,
+                    "Error: Wrong username or password", "Error in Log In",
                     JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_buttonlogInActionPerformed

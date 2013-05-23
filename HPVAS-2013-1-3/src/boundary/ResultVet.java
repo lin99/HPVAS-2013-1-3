@@ -11,11 +11,14 @@ import javax.swing.table.DefaultTableModel;
 import Controller.*;
 
 /**
- * @author Lina Fernanda Rosales Castro <href="mailto:lfrosalesc@unal.edu.co">lfrosalesc@unal.edu.co</href> 
- * @author Andrés Sarmiento Tobón <href="mailto:ansarmientoto@unal.edu.co">ansarmientoto@unal.edu.co</href>
+ * @author Lina Fernanda Rosales Castro
+ * <href="mailto:lfrosalesc@unal.edu.co">lfrosalesc@unal.edu.co</href>
+ * @author Andrés Sarmiento Tobón
+ * <href="mailto:ansarmientoto@unal.edu.co">ansarmientoto@unal.edu.co</href>
  */
 public class ResultVet extends javax.swing.JPanel implements
         EmbeddedHPVAPanel {
+
     private MainWindow mainWindow;
     private Queue<String> petDel;
     private Veterinarian vet;
@@ -24,6 +27,7 @@ public class ResultVet extends javax.swing.JPanel implements
 
     /**
      * Creates new form ResultVet
+     * @param mainWindow 
      */
     public ResultVet(MainWindow mainWindow) {
         initComponents();
@@ -41,12 +45,18 @@ public class ResultVet extends javax.swing.JPanel implements
         String speciality = textFieldSpeVet.getText();
         String salary = textFieldSalVet.getText();
         String graduation = textFieldGradVet.getText();
-        
-        //Call controller with all the data
-        
-        while(!petDel.isEmpty()) {
+
+        try {
+            ControllerCreationOrUpdates.createOrUpdateVeterinarian(name,
+                    lastname,
+                    Integer.parseInt(salary), graduation, ssn, birthdate,
+                    birthplace, focus, speciality);
+        } catch (NumberFormatException numberFormatException) {
+        }
+
+        while (!petDel.isEmpty()) {
             String petName = petDel.poll();
-            //Call controller to delete an appoinment
+            ControllerDeletions.deleteAppointment(petName, ssn);
         }
     }
 
@@ -55,37 +65,41 @@ public class ResultVet extends javax.swing.JPanel implements
         textFieldName.setText(vet.getName());
         textFieldLastNameVet.setText(vet.getLastName());
         textFieldSSNVet.setText(vet.getSsn());
-        String date = "";//Calls the controller to get the date formatting
+        String date = ControllerFormatting.formatDate(vet.getBirthdate());
         textFieldBiDaVet.setText(date);
         textFieldBiPlaVet.setText(vet.getBirthplace());
         textFieldFocusVet.setText(vet.getFocusOnPractice());
         textFieldSpeVet.setText(vet.getSpecialities());
         textFieldSalVet.setText("" + vet.getSalary());
         textFieldGradVet.setText(vet.getGraduatedAt());
-        
+
         petDel = new LinkedList<String>();
-        
-        DefaultTableModel tableVetPetsModel = (DefaultTableModel) 
-                tableVetPets.getModel();
-        
+
+        DefaultTableModel tableVetPetsModel = (DefaultTableModel) tableVetPets
+                .getModel();
+
         for (int i = 0; i < nameVet.length && i < specieVet.length; i++) {
-            tableVetPetsModel.addRow(new Object[]{
+            tableVetPetsModel.addRow(new Object[] {
                 nameVet[i],
                 specieVet[i]
             });
         }
-        
+
         setVisible(true);
     }
 
+    /**
+     *
+     * @param vet
+     * @param nameVet
+     * @param specieVet
+     */
     public void setVet(Veterinarian vet, String[] nameVet, String[] specieVet) {
         this.vet = vet;
         this.nameVet = nameVet;
         this.specieVet = specieVet;
     }
-    
-//    public void
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -370,13 +384,24 @@ public class ResultVet extends javax.swing.JPanel implements
     }//GEN-LAST:event_buttonBackActionPerformed
 
     private void buttonAddVetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddVetActionPerformed
-        // TODO add your handling code here:
+        ((DefaultTableModel) tableVetPets.getModel()).addRow(new Object[] {});
     }//GEN-LAST:event_buttonAddVetActionPerformed
 
     private void buttonDelVetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDelVetActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonDelVetActionPerformed
+        int index = tableVetPets.getSelectedRow();
 
+        if (index >= 0) {
+            petDel.offer((String) tableVetPets.getValueAt(index, 0));
+
+            ((DefaultTableModel) tableVetPets.getModel()).removeRow(index);
+
+            if (tableVetPets.getRowCount() > 0) {
+                index = Math.min(index, tableVetPets.getRowCount() - 1);
+                tableVetPets.getSelectionModel()
+                        .setSelectionInterval(index, index);
+            }
+        }
+    }//GEN-LAST:event_buttonDelVetActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAddVet;
     private javax.swing.JButton buttonBack;

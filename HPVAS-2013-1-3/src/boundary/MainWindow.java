@@ -235,21 +235,21 @@ public class MainWindow extends javax.swing.JFrame {
 
         if (search.trim().intern() == "*") {
             Owner[] owners = new Owner[0];
-            
+
             if (checkBoxOwner.isSelected()) {
-                owners = new Owner[0];//Call the controller to get all the Owners
+                owners = ControllerListOfTheEntities.readAllOwners();
             }
 
             Pet[] pets = new Pet[0];
-            
+
             if (checkBoxPet.isSelected()) {
-                pets = new Pet[0];//Call the controller to get all the Pets
+                pets = ControllerListOfTheEntities.readAllPets();
             }
 
             Veterinarian[] vets = new Veterinarian[0];
-            
+
             if (checkBoxVet.isSelected()) {
-                vets = new Veterinarian[0];//Call the controller to get all the Vets
+                vets = ControllerListOfTheEntities.readAllVeteterinarians();
             }
 
             resultGeneral.setResults(pets, vets, owners);
@@ -263,28 +263,28 @@ public class MainWindow extends javax.swing.JFrame {
     private void buttonAddQueryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddQueryActionPerformed
         boolean wellFormed = Controller.ControllerFormatting.validateSSN(
                 textFieldQuery.getText());
-        
-        if(wellFormed) {
+
+        if (wellFormed) {
             checkBoxPet.setEnabled(false);
             checkBoxPet.setSelected(false);
         } else {
             checkBoxPet.setEnabled(true);
         }
-        
+
         checkBoxOwner.setVisible(true);
         checkBoxPet.setVisible(true);
         checkBoxVet.setVisible(true);
     }//GEN-LAST:event_buttonAddQueryActionPerformed
 
     private void textFieldQueryFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldQueryFocusGained
-        if(textFieldQuery.getText().intern() == "Search here... ") {
+        if (textFieldQuery.getText().intern() == "Search here... ") {
             textFieldQuery.setText("");
             textFieldQuery.setForeground(Color.BLACK);
         }
     }//GEN-LAST:event_textFieldQueryFocusGained
 
     private void textFieldQueryFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldQueryFocusLost
-        if(textFieldQuery.getText().intern() == "") {
+        if (textFieldQuery.getText().intern() == "") {
             textFieldQuery.setText("Search here... ");
             textFieldQuery.setForeground(Color.LIGHT_GRAY);
         }
@@ -336,9 +336,12 @@ public class MainWindow extends javax.swing.JFrame {
     }
     private Queue<JPanel> previousPanels = new LinkedList<JPanel>();
 
+    /**
+     *
+     */
     public void loadPreviousPanel() {
         JPanel panel = previousPanels.poll();
-        
+
         if (panel != null) {
             GroupLayout panelResultsLayout = (GroupLayout) panelResults
                     .getLayout();
@@ -352,7 +355,7 @@ public class MainWindow extends javax.swing.JFrame {
                     GroupLayout.Alignment.LEADING)
                     .addComponent(panel, GroupLayout.DEFAULT_SIZE,
                     GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
-            
+
             panel.repaint();
         }
     }
@@ -383,9 +386,9 @@ public class MainWindow extends javax.swing.JFrame {
                     GroupLayout.Alignment.LEADING)
                     .addComponent(panel, GroupLayout.DEFAULT_SIZE,
                     GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
-            
+
             panel.repaint();
-            
+
             previousPanels.add(currentPanel);
             currentPanel = panel;
             ((EmbeddedHPVAPanel) currentPanel).update();

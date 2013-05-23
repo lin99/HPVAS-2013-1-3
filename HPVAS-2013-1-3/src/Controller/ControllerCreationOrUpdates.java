@@ -14,25 +14,32 @@ import java.util.List;
  * @author osfprieto
  */
 public class ControllerCreationOrUpdates {
-    
+
     /*Create OR Update an owner with
      * (String nameOwner, String lastNameOwner,
      * String sSNOwner, String birthDateOwner,
      * String birthPlaceOwner)*/
-    
+    /**
+     *
+     * @param name
+     * @param lastName
+     * @param ssn
+     * @param birthDate
+     * @param birthPlace
+     */
     public static void createOrUpdateOwner(String name,
-            String lastName, String ssn, String birthDate, String birthPlace){
-        
+            String lastName, String ssn, String birthDate, String birthPlace) {
+
         DAOOwner daoOwner = new DAOOwner();
         Owner owner = daoOwner.read(ssn);
-        
-        if(owner != null){//update
+
+        if (owner != null) {//update
             owner.setName(name);
             owner.setLastName(lastName);
             owner.setBirthdate(new Date(birthDate));
             owner.setBirthplace(birthPlace);
             daoOwner.update(owner, owner);
-        }else{//create
+        } else {//create
             owner = new Owner();
             owner.setName(name);
             owner.setLastName(lastName);
@@ -40,21 +47,32 @@ public class ControllerCreationOrUpdates {
             owner.setBirthplace(birthPlace);
             daoOwner.create(owner);
         }
-        
+
     }
-    
+
     /*Create OR Update a vet with (String nameVet, String lastNameVet,
      * Integer salary, String graduated, String sSNVet, String birthDateVet,
      * String birthPlaceVet, String focus, String speciality)*/
-    
+    /**
+     *
+     * @param name
+     * @param lastName
+     * @param salary
+     * @param graduated
+     * @param snn
+     * @param birthDate
+     * @param birthPlace
+     * @param focus
+     * @param speciality
+     */
     public static void createOrUpdateVeterinarian(String name, String lastName,
             Integer salary, String graduated, String snn, String birthDate,
-            String birthPlace, String focus, String speciality){
-    
+            String birthPlace, String focus, String speciality) {
+
         DAOVeterinarian dAOVeterinarian = new DAOVeterinarian();
         Veterinarian vet = dAOVeterinarian.read(snn);
-        
-        if(vet != null){//update
+
+        if (vet != null) {//update
             vet.setName(name);
             vet.setLastName(lastName);
             vet.setSalary(salary);
@@ -64,7 +82,7 @@ public class ControllerCreationOrUpdates {
             vet.setFocusOnPractice(focus);
             vet.setSpecialities(speciality);
             dAOVeterinarian.update(vet, vet);
-        }else{//create
+        } else {//create
             vet = new Veterinarian();
             vet.setName(name);
             vet.setLastName(lastName);
@@ -76,28 +94,35 @@ public class ControllerCreationOrUpdates {
             vet.setSpecialities(speciality);
             dAOVeterinarian.create(vet);
         }
-        
+
     }
-    
+
     /*Create OR Update a pet with (String name, String specie,
-         * String age, String weight, String owner*/
-        
+     * String age, String weight, String owner*/
+    /**
+     *
+     * @param name
+     * @param specie
+     * @param age
+     * @param weight
+     * @param ownerSsn
+     */
     public static void createOrUpdatePet(String name, String specie,
-            String age, String weight, String ownerSsn){
+            String age, String weight, String ownerSsn) {
         DAOOwner daoOwner = new DAOOwner();
         DAOPet daoPet = new DAOPet();
-        
+
         Owner owner = daoOwner.read(ownerSsn);
-        
-        if(owner != null){
+
+        if (owner != null) {
             Pet pet = daoPet.read(name, owner);
 
-            if(pet != null){//update
+            if (pet != null) {//update
                 pet.setSpecies(specie);
                 pet.setWeight(Float.parseFloat(weight));
                 pet.setAge(Integer.parseInt(age));
                 daoPet.update(pet, pet);
-            }else{//create
+            } else {//create
                 pet = new Pet();
                 pet.setOwner(owner);
                 pet.setAge(Integer.parseInt(age));
@@ -112,18 +137,26 @@ public class ControllerCreationOrUpdates {
 
     /*Create OR Update an appoinment(String date, String charge,
      * String note, String vetSSN)*/
+    /**
+     *
+     * @param petName
+     * @param date
+     * @param charge
+     * @param note
+     * @param vetSsn
+     */
     public static void createOrUpdateAppointment(String petName, String date,
-        String charge, String note, String vetSsn){
-        
+            String charge, String note, String vetSsn) {
+
         DAOVeterinarian daoVet = new DAOVeterinarian();
         DAOAppointment daoAppointment = new DAOAppointment();
         Veterinarian vet = daoVet.read(vetSsn);
-        
-        if(vet!=null){
+
+        if (vet != null) {
             List<Appointment> appointments = vet.getAppointments();
-            for(Appointment appointment:appointments){
-                if(appointment.getMedicalRecord().getPet().getName().
-                        equals(petName)){
+            for (Appointment appointment : appointments) {
+                if (appointment.getMedicalRecord().getPet().getName().
+                        equals(petName)) {
                     appointment.setDate(new Date(date));
                     appointment.setCharge(Integer.parseInt(charge));
                     appointment.setNotes(note);
@@ -131,6 +164,6 @@ public class ControllerCreationOrUpdates {
                 }
             }
         }
-    
+
     }
 }

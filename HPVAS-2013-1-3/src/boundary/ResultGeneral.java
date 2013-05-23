@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ResultGeneral extends javax.swing.JPanel implements
         EmbeddedHPVAPanel {
+
     private MainWindow mainWindow;
     private Pet[] resultsPet;
     private Veterinarian[] resultsVet;
@@ -24,6 +25,7 @@ public class ResultGeneral extends javax.swing.JPanel implements
 
     /**
      * Creates new form Add
+     * @param mainWindow 
      */
     public ResultGeneral(MainWindow mainWindow) {
         initComponents();
@@ -37,32 +39,38 @@ public class ResultGeneral extends javax.swing.JPanel implements
 
     @Override
     public void update() {
-        DefaultTableModel tableModel = (DefaultTableModel)tableResultGen.
+        DefaultTableModel tableModel = (DefaultTableModel) tableResultGen.
                 getModel();
-        
+
         for (Owner owner : resultsOwner) {
-            tableModel.addRow(new Object[]{
+            tableModel.addRow(new Object[] {
                 owner.getName(),
                 "Owner"
             });
         }
-        
+
         for (Veterinarian vet : resultsVet) {
-            tableModel.addRow(new Object[]{
+            tableModel.addRow(new Object[] {
                 vet.getName(),
                 "Veterinarian"
             });
         }
-        
+
         for (Pet pet : resultsPet) {
-            tableModel.addRow(new Object[]{
+            tableModel.addRow(new Object[] {
                 pet.getName(),
                 "Pet"
             });
         }
     }
 
-    public void setResults(Pet[] resultsPet, Veterinarian[] resultsVet, 
+    /**
+     *
+     * @param resultsPet
+     * @param resultsVet
+     * @param resultsOwner
+     */
+    public void setResults(Pet[] resultsPet, Veterinarian[] resultsVet,
             Owner[] resultsOwner) {
         this.resultsPet = resultsPet;
         this.resultsVet = resultsVet;
@@ -73,22 +81,22 @@ public class ResultGeneral extends javax.swing.JPanel implements
         Queue<Owner> owners = new LinkedList<Owner>();
         Queue<Pet> pets = new LinkedList<Pet>();
         Queue<Veterinarian> vets = new LinkedList<Veterinarian>();
-        
+
         for (Object petPerson : petsPersons) {
-            if(petPerson instanceof Owner) {
+            if (petPerson instanceof Owner) {
                 owners.offer((Owner) petPerson);
             } else if (petPerson instanceof Pet) {
                 pets.offer((Pet) petPerson);
             } else if (petPerson instanceof Veterinarian) {
                 vets.offer((Veterinarian) petPerson);
-            }  
+            }
         }
-        
+
         this.resultsOwner = owners.toArray(new Owner[owners.size()]);
         this.resultsVet = vets.toArray(new Veterinarian[vets.size()]);
         this.resultsPet = pets.toArray(new Pet[pets.size()]);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

@@ -7,21 +7,22 @@ package Controller;
 import java.awt.Image;
 import java.awt.Toolkit;
 
-
 /**
  *
  * @author jiacontrerasp
  */
 public class ControllerImageConversion {
-    
-    
-static private Image parseImage( final byte[] bytes )
-    {
-        if( bytes.length == 0 ) {
+
+    /**
+     *
+     * @param bytes
+     * @return
+     */
+    public static Image parseImage(byte[] bytes) {
+        if (bytes.length == 0) {
             return null;
-        }
-        else{
-            return Toolkit.getDefaultToolkit().createImage( bytes );
+        } else {
+            return Toolkit.getDefaultToolkit().createImage(bytes);
         }
     }
 }

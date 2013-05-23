@@ -9,18 +9,22 @@ import javax.swing.table.DefaultTableModel;
 import Controller.*;
 
 /**
- * @author Lina Fernanda Rosales Castro <href="mailto:lfrosalesc@unal.edu.co">lfrosalesc@unal.edu.co</href> 
- * @author Andrés Sarmiento Tobón <href="mailto:ansarmientoto@unal.edu.co">ansarmientoto@unal.edu.co</href>
+ * @author Lina Fernanda Rosales Castro
+ * <href="mailto:lfrosalesc@unal.edu.co">lfrosalesc@unal.edu.co</href>
+ * @author Andrés Sarmiento Tobón
+ * <href="mailto:ansarmientoto@unal.edu.co">ansarmientoto@unal.edu.co</href>
  */
 public class ResultOwner extends javax.swing.JPanel implements
         EmbeddedHPVAPanel {
+
     private MainWindow mainWindow;
     private Owner owner;
     private String[] pets;
     private double[] money;
-    
+
     /**
      * Creates new form ResultOwner
+     * @param mainWindow 
      */
     public ResultOwner(MainWindow mainWindow) {
         initComponents();
@@ -34,8 +38,9 @@ public class ResultOwner extends javax.swing.JPanel implements
         String sSN = textFieldSSN.getText();
         String birthDate = textFieldBirthDate.getText();
         String birthPlace = textFieldBirthPlace.getText();
-        
-        //Call controller passing all those values to the controller
+
+        ControllerCreationOrUpdates.createOrUpdateOwner(name, lastName, sSN,
+                birthDate, birthPlace);
     }
 
     @Override
@@ -43,34 +48,39 @@ public class ResultOwner extends javax.swing.JPanel implements
         //Basic information
         textFieldName.setText(owner.getName());
         textFieldLastName.setText(owner.getLastName());
-        String date = "00/00/0000";//Calls the controller to get the date formatting
+        String date = ControllerFormatting.formatDate(owner.getBirthdate());
         textFieldBirthDate.setText(date);
         textFieldBirthPlace.setText(owner.getBirthplace());
         textFieldSSN.setText(owner.getSsn());
-        
+
         //Money per Pet list
-        
-        DefaultTableModel tableNameMoneyModel = (DefaultTableModel) tableNameMoney.getModel();
-        
-        while (tableNameMoneyModel.getRowCount() > 0) {            
+
+        DefaultTableModel tableNameMoneyModel =
+                (DefaultTableModel) tableNameMoney.getModel();
+
+        while (tableNameMoneyModel.getRowCount() > 0) {
             tableNameMoneyModel.removeRow(0);
         }
-        
+
         for (int i = 0; i < pets.length && i < money.length; i++) {
-            tableNameMoneyModel.addRow(new Object[]{pets[i], money[i]});
+            tableNameMoneyModel.addRow(new Object[] {pets[i], money[i]});
         }
-        
+
         setVisible(true);
     }
-    
+
+    /**
+     *
+     * @param owner
+     * @param pets
+     * @param money
+     */
     public void setOwner(Owner owner, String[] pets, double[] money) {
         this.owner = owner;
         this.pets = pets;
         this.money = money;
     }
-    
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -280,7 +290,6 @@ public class ResultOwner extends javax.swing.JPanel implements
     private void buttonBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBackActionPerformed
         mainWindow.loadPreviousPanel();
     }//GEN-LAST:event_buttonBackActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonBack;
     private javax.swing.JLabel labelBirthDate;

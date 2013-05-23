@@ -19,72 +19,96 @@ import javax.persistence.Query;
  * @author Fredy Virguez
  */
 public class DAOMedicalRecord {
-    
-    public void create(MedicalRecord medicalRecord){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
+
+    /**
+     *
+     * @param medicalRecord
+     */
+    public void create(MedicalRecord medicalRecord) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+                "HPVAS");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        try{
+        try {
             em.persist(medicalRecord);
             em.getTransaction().commit();
-        }catch(Exception e){
+        } catch (Exception e) {
             em.getTransaction().rollback();
-        }
-        finally{
+        } finally {
             em.close();
-        }   
+        }
     }
-    
-    public boolean delete(MedicalRecord medicalRecord){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
+
+    /**
+     *
+     * @param medicalRecord
+     * @return
+     */
+    public boolean delete(MedicalRecord medicalRecord) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+                "HPVAS");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         boolean ret = false;
-        try{
-            for(Vacine v:medicalRecord.getVacines()){
+        try {
+            for (Vacine v : medicalRecord.getVacines()) {
                 new DAOVacine().delete(v);
             }
-            for(Appointment a:medicalRecord.getAppointments()){
+            for (Appointment a : medicalRecord.getAppointments()) {
                 new DAOAppointment().delete(a);
             }
-            medicalRecord=read(medicalRecord.getPet());
-            Query q = em.createQuery("DELETE FROM MedicalRecord m WHERE m.id = :id")
+            medicalRecord = read(medicalRecord.getPet());
+            Query q = em.createQuery(
+                    "DELETE FROM MedicalRecord m WHERE m.id = :id")
                     .setParameter("id", medicalRecord.getId());
             q.executeUpdate();
             em.getTransaction().commit();
             ret = true;
-        }catch(Exception e) {
+        } catch (Exception e) {
             em.getTransaction().rollback();
         } finally {
             em.close();
             return ret;
         }
     }
-    
-    public MedicalRecord read(Pet pet){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
+
+    /**
+     *
+     * @param pet
+     * @return
+     */
+    public MedicalRecord read(Pet pet) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+                "HPVAS");
         EntityManager em = emf.createEntityManager();
-        Query q=em.createQuery("SELECT m FROM MedicalRecord m "+
+        Query q = em.createQuery("SELECT m FROM MedicalRecord m " +
                 "WHERE m.pet = :pet")
                 .setParameter("pet", pet);
-        MedicalRecord medicalRecord=null;
-        try{
-            medicalRecord=(MedicalRecord) q.getSingleResult();
-        }catch(NonUniqueResultException e){
-            medicalRecord=(MedicalRecord) q.getResultList().get(0);
-        }catch(Exception e){}
-        finally{
+        MedicalRecord medicalRecord = null;
+        try {
+            medicalRecord = (MedicalRecord) q.getSingleResult();
+        } catch (NonUniqueResultException e) {
+            medicalRecord = (MedicalRecord) q.getResultList().get(0);
+        } catch (Exception e) {
+        } finally {
             em.close();
             return medicalRecord;
         }
     }
-    
-    public boolean update(MedicalRecord actual,MedicalRecord theNew){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
+
+    /**
+     *
+     * @param actual
+     * @param theNew
+     * @return
+     */
+    public boolean update(MedicalRecord actual, MedicalRecord theNew) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+                "HPVAS");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         boolean ret = false;
-        try{
+        try {
             actual = read(actual.getPet());
             actual.setAppointments(theNew.getAppointments());
             actual.setVacines(theNew.getVacines());
@@ -92,13 +116,12 @@ public class DAOMedicalRecord {
             em.merge(actual);
             em.getTransaction().commit();
             ret = true;
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             em.getTransaction().rollback();
-        }finally{
+        } finally {
             em.close();
             return ret;
         }
     }
-    
 }

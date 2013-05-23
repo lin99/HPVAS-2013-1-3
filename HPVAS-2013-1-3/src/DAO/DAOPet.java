@@ -21,6 +21,10 @@ import javax.persistence.Query;
  */
 public class DAOPet {
 
+    /**
+     *
+     * @param pet
+     */
     public void create(Pet pet) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
         EntityManager em = emf.createEntityManager();
@@ -35,6 +39,11 @@ public class DAOPet {
         }
     }
 
+    /**
+     *
+     * @param pet
+     * @return
+     */
     public boolean delete(Pet pet) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
         EntityManager em = emf.createEntityManager();
@@ -58,6 +67,12 @@ public class DAOPet {
         }
     }
 
+    /**
+     *
+     * @param name
+     * @param owner
+     * @return
+     */
     public Pet read(String name, Owner owner) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
         EntityManager em = emf.createEntityManager();
@@ -77,6 +92,11 @@ public class DAOPet {
         }
     }
 
+    /**
+     *
+     * @param owner
+     * @return
+     */
     public List<Pet> read(Owner owner) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
         EntityManager em = emf.createEntityManager();
@@ -93,6 +113,11 @@ public class DAOPet {
         }
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
     public List<Pet> readByName(String name) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
         EntityManager em = emf.createEntityManager();
@@ -110,6 +135,31 @@ public class DAOPet {
         }
     }
 
+    /**
+     *
+     * @return
+     */
+    public List<Pet> readAll() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
+        EntityManager em = emf.createEntityManager();
+        Query q;
+        q = em.createQuery("SELECT * FROM Pet");
+        List<Pet> pets = null;
+        try {
+            pets = q.getResultList();
+        } catch (Exception e) {
+        } finally {
+            em.close();
+            return pets;
+        }
+    }
+    
+    /**
+     *
+     * @param actual
+     * @param theNew
+     * @return
+     */
     public boolean update(Pet actual, Pet theNew) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("HPVAS");
         EntityManager em = emf.createEntityManager();

@@ -5,36 +5,46 @@
 package Controller;
 
 import DAO.DAOOwner;
+import DAO.DAOPet;
+import DAO.DAOVeterinarian;
 import Model.Owner;
 import Model.Pet;
 import Model.Veterinarian;
+import java.util.List;
 
 /**
  *
  * @author jiacontrerasp
  */
 public class ControllerListOfTheEntities {
-    public static String getAllOwner(){
-        String AllOwner = null;
-        for(Owner o:new DAO.DAOOwner().readByName("")){
-        AllOwner += o.getName()+" "+o.getLastName()+"\n";
-        }
-         return AllOwner;
+
+    /**
+     *
+     * @return
+     */
+    public static Owner[] readAllOwners() {
+        DAOOwner daoOwner = new DAOOwner();
+        List<Owner> owners = daoOwner.readAll();
+        return owners.toArray(new Owner[owners.size()]);
     }
-    
-    public static String getAllPet(){
-        String AllPet = null;
-        for(Pet p:new DAO.DAOPet().readByName("")){
-        AllPet += p.getName()+"\n";
-        }
-         return AllPet;
+
+    /**
+     *
+     * @return
+     */
+    public static Pet[] readAllPets() {
+        DAOPet daoPet = new DAOPet();
+        List<Pet> pets = daoPet.readAll();
+        return pets.toArray(new Pet[pets.size()]);
     }
-    
-    public static String getAllVet(){
-        String AllPet = null;
-        for(Veterinarian v:new DAO.DAOVeterinarian().readByName("")){
-        AllPet += v.getName()+" "+v.getLastName()+"\n";
-        }
-         return AllPet;
+
+    /**
+     *
+     * @return
+     */
+    public static Veterinarian[] readAllVeteterinarians() {
+        DAOVeterinarian daoVet = new DAOVeterinarian();
+        List<Veterinarian> vets = daoVet.readAll();
+        return vets.toArray(new Veterinarian[vets.size()]);
     }
 }
